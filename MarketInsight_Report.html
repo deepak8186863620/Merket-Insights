@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MarketInsight - Formal Project & Internship Report</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+  :root {
+    --cbit-red: #8B161D;
+    --cbit-gold: #B48C3C;
+    --text-primary: #1F2937;
+    --text-secondary: #4B5563;
+    --border-color: #E5E7EB;
+    --bg-light: #F9FAFB;
+    --code-bg: #F3F4F6;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    color: var(--text-primary);
+    background-color: #F3F4F6;
+    line-height: 1.65;
+    padding: 30px 15px;
+  }
+
+  .page-container {
+    max-width: 860px;
+    margin: 0 auto;
+    background: #FFFFFF;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+    border-radius: 8px;
+    padding: 60px 70px;
+  }
+
+  @media print {
+    body { background: white; padding: 0; }
+    .page-container { box-shadow: none; padding: 40px; max-width: 100%; }
+    .page-break { page-break-before: always; }
+    .no-print { display: none !important; }
+  }
+
+  .print-bar {
+    position: sticky;
+    top: 20px;
+    max-width: 860px;
+    margin: 0 auto 20px auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #1E293B;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    z-index: 100;
+  }
+
+  .print-btn {
+    background: var(--cbit-red);
+    color: white;
+    border: none;
+    padding: 8px 18px;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: background 0.2s;
+  }
+  .print-btn:hover { background: #6F1116; }
+
+  /* Title Page */
+  .title-page {
+    text-align: center;
+    padding: 40px 0 60px 0;
+    border-bottom: 2px solid var(--cbit-red);
+  }
+  .title-page h4 {
+    letter-spacing: 2px;
+    color: var(--text-secondary);
+    font-size: 14px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .title-page h1 {
+    font-size: 26px;
+    color: var(--cbit-red);
+    line-height: 1.35;
+    margin: 20px 0;
+    font-weight: 800;
+  }
+  .title-page .submitted-by {
+    margin: 35px 0;
+    font-size: 15px;
+  }
+  .title-page .author-name {
+    font-size: 20px;
+    font-weight: 700;
+    color: #111827;
+  }
+  .title-page .college-box {
+    margin-top: 40px;
+    padding-top: 25px;
+    border-top: 1.5px solid #F3F4F6;
+  }
+  .title-page .college-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--cbit-red);
+  }
+
+  /* Certificate & Formal Sections */
+  .formal-box {
+    border: 2px solid var(--cbit-red);
+    border-radius: 8px;
+    padding: 30px;
+    background: #FFF9F9;
+    margin: 40px 0;
+  }
+  .formal-box h2 {
+    color: var(--cbit-red);
+    text-align: center;
+    font-size: 22px;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  /* Headings */
+  h1.chapter-title {
+    font-size: 24px;
+    color: var(--cbit-red);
+    border-bottom: 2px solid var(--cbit-red);
+    padding-bottom: 8px;
+    margin: 45px 0 20px 0;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  h2.section-title {
+    font-size: 18px;
+    color: #111827;
+    margin: 28px 0 12px 0;
+    border-left: 4px solid var(--cbit-red);
+    padding-left: 10px;
+  }
+  h3.subsection-title {
+    font-size: 15px;
+    color: var(--text-secondary);
+    margin: 18px 0 8px 0;
+    font-weight: 600;
+  }
+
+  p {
+    margin-bottom: 14px;
+    color: #374151;
+    text-align: justify;
+  }
+
+  /* Info Boxes */
+  .info-card {
+    background: #F8FAFC;
+    border: 1px solid #CBD5E1;
+    border-left: 4px solid var(--cbit-gold);
+    border-radius: 6px;
+    padding: 18px 22px;
+    margin: 20px 0;
+  }
+
+  /* Tables */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 14px;
+  }
+  th, td {
+    padding: 10px 14px;
+    border: 1px solid var(--border-color);
+    text-align: left;
+  }
+  th {
+    background: #F9FAFB;
+    font-weight: 600;
+    color: var(--cbit-red);
+  }
+  tr:nth-child(even) td { background: #FAFAFA; }
+
+  /* Code Blocks */
+  pre {
+    background: #0F172A;
+    color: #E2E8F0;
+    padding: 16px 20px;
+    border-radius: 6px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12.5px;
+    overflow-x: auto;
+    margin: 16px 0;
+    line-height: 1.5;
+  }
+  code {
+    font-family: 'JetBrains Mono', monospace;
+    background: #F1F5F9;
+    color: #BE185D;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 13px;
+  }
+  pre code { background: transparent; color: inherit; padding: 0; }
+
+  /* Mock Screenshots */
+  .screenshot-box {
+    background: #F8FAFC;
+    border: 1px solid #CBD5E1;
+    border-radius: 6px;
+    padding: 20px;
+    margin: 20px 0;
+    text-align: center;
+  }
+  .screenshot-box .caption {
+    font-weight: 600;
+    color: #1E293B;
+    font-size: 13.5px;
+    margin-bottom: 8px;
+  }
+  .screenshot-box .desc {
+    font-size: 13px;
+    color: #64748B;
+    font-style: italic;
+  }
+
+  /* Formula Box */
+  .formula-box {
+    background: #FFFBEB;
+    border: 1px solid #FDE68A;
+    padding: 16px 20px;
+    border-radius: 6px;
+    margin: 16px 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: #92400E;
+  }
+
+  .signature-grid {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 60px;
+    padding-top: 20px;
+  }
+  .signature-col {
+    text-align: center;
+    width: 45%;
+  }
+  .signature-col .name { font-weight: 700; color: #111827; }
+  .signature-col .title { font-size: 13px; color: var(--text-secondary); }
+</style>
+</head>
+<body>
+
+<div class="print-bar no-print">
+  <div>
+    <strong>MarketInsight Formal Internship Report</strong> &bull; CBIT IT Department Format
+  </div>
+  <button class="print-btn" onclick="window.print()">
+    <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M2.5 8a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1z"/><path d="M5 1a2 2 0 0 0-2 2v2H2a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h1v1a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-1h1a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-1V3a2 2 0 0 0-2-2H5zM4 3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2H4V3zm1 5a2 2 0 0 0-2 2v1H2a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v-1a2 2 0 0 0-2-2H5zm7 2v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1z"/></svg>
+    Print / Save to PDF
+  </button>
+</div>
+
+<div class="page-container">
+
+  <!-- TITLE PAGE -->
+  <div class="title-page">
+    <h4>An Internship & Project Report On</h4>
+    <h1>MARKETINSIGHT<br><span style="font-size: 19px; font-weight: 500; color: #374151;">An AI-Powered Quantitative Stock Market Intelligence Platform with Real-Time Agent Services, Interactive Visualizations and Institutional Analytics</span></h1>
+
+    <div style="margin: 30px 0; font-size: 14px; color: var(--text-secondary);">
+      Submitted in partial fulfilment of the requirements for the award of the degree of<br>
+      <strong style="color: #111827; font-size: 15px;">BACHELOR OF ENGINEERING IN INFORMATION TECHNOLOGY</strong>
+    </div>
+
+    <div class="submitted-by">
+      Submitted by:<br>
+      <div class="author-name">DEEPAK PRAJAPATI</div>
+      <div style="color: var(--text-secondary); font-size: 14px;">Roll No: 1601-24-737-xxx</div>
+    </div>
+
+    <div style="margin: 25px 0; font-size: 14px;">
+      Under the guidance of:<br>
+      <strong style="font-size: 15px; color: #111827;">Dr. D. Jayaram / Faculty Guide</strong><br>
+      <span style="color: var(--text-secondary);">Assistant Professor, Department of Information Technology</span>
+    </div>
+
+    <div class="college-box">
+      <div class="college-title">DEPARTMENT OF INFORMATION TECHNOLOGY</div>
+      <div style="font-weight: 700; font-size: 17px; margin-top: 4px;">CHAITANYA BHARATHI INSTITUTE OF TECHNOLOGY (A)</div>
+      <div style="font-size: 13px; color: var(--text-secondary); margin-top: 4px;">
+        (Affiliated to Osmania University; Accredited by NBA, NAAC A++, ISO)<br>
+        Kokapet (V), Gandipet (M), Hyderabad, Telangana, India &ndash; 500075<br>
+        <strong>Academic Year: 2026–2027</strong>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-break"></div>
+
+  <!-- CERTIFICATE -->
+  <div class="formal-box">
+    <h2>Certificate</h2>
+    <p>This is to certify that the project / internship report entitled <strong>"MarketInsight: An AI-Powered Quantitative Stock Market Intelligence Platform with Real-Time Agent Services, Interactive Visualizations and Institutional Analytics"</strong> is a bonafide record of the work carried out by <strong>Deepak Prajapati</strong> (Roll No: <strong>1601-24-737-xxx</strong>), a student of B.E. Information Technology, during the academic year 2026–2027.</p>
+    <p>This report is submitted in partial fulfilment of the requirements for the award of the degree of <strong>Bachelor of Engineering in Information Technology</strong> of Chaitanya Bharathi Institute of Technology (A), affiliated to Osmania University, Hyderabad. The results and implementations presented in this report have been verified and found satisfactory.</p>
+
+    <div class="signature-grid">
+      <div class="signature-col">
+        <div class="name">Dr. D. Jayaram</div>
+        <div class="title">Internal Guide<br>Assistant Professor, Dept of IT</div>
+      </div>
+      <div class="signature-col">
+        <div class="name">Dr. M. Venu Gopalachari</div>
+        <div class="title">Head of the Department<br>Department of Information Technology</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DECLARATION -->
+  <div style="margin: 40px 0;">
+    <h2 style="color: var(--cbit-red); font-size: 20px; border-bottom: 2px solid var(--cbit-red); padding-bottom: 6px; margin-bottom: 16px;">Declaration</h2>
+    <p>I, <strong>Deepak Prajapati</strong>, bearing Roll No. <strong>1601-24-737-xxx</strong>, a student of B.E. Information Technology, Chaitanya Bharathi Institute of Technology (A), Hyderabad, hereby declare that the project report entitled <strong>"MarketInsight: An AI-Powered Quantitative Stock Market Intelligence Platform"</strong> is a record of original work carried out individually by me.</p>
+    <p>I further declare that the work presented in this report has not been submitted, either in part or in full, to any other university or institution for the award of any degree or diploma. All algorithms, tools, code implementations, mathematical formulas, and sources of information used in this report have been duly acknowledged.</p>
+    <div style="margin-top: 35px; display: flex; justify-content: space-between;">
+      <div><strong>Place:</strong> Hyderabad<br><strong>Date:</strong> November 2026</div>
+      <div style="text-align: right;"><strong>Deepak Prajapati</strong><br>Roll No: 1601-24-737-xxx</div>
+    </div>
+  </div>
+
+  <!-- ABSTRACT -->
+  <div style="margin: 40px 0;">
+    <h2 style="color: var(--cbit-red); font-size: 20px; border-bottom: 2px solid var(--cbit-red); padding-bottom: 6px; margin-bottom: 16px;">Abstract</h2>
+    <div class="info-card">
+      <p>Stock market research is traditionally fragmented across isolated platforms: technical charting systems, fundamental screeners, news portals, and generic AI chatbots. Professional market terminals like Bloomberg resolve this fragmentation but remain economically inaccessible to retail investors, students, and independent analysts. Furthermore, generic LLMs suffer from knowledge cutoffs and lack access to real-time market data.</p>
+      <p style="margin-bottom: 0;">To solve this challenge, this project presents <strong>MarketInsight v2.0</strong>, a full-stack quantitative financial intelligence platform. MarketInsight combines a <strong>LangGraph ReAct AI agent</strong> powered by <strong>Google Gemini</strong> with <strong>16 real-time Yahoo Finance execution tools</strong>, a <strong>FastAPI asynchronous streaming backend</strong> with Server-Sent Events (SSE), and a <strong>React 18 + TypeScript Quant Workstation</strong> styled in an institutional dark aesthetic. The system features custom SVG charts with hover crosshairs, live DCF intrinsic valuation models with dual sensitivity sliders, sector treemap heatmaps, sparkline watchlists, and native browser voice transcription.</p>
+    </div>
+  </div>
+
+  <div class="page-break"></div>
+
+  <!-- CHAPTER 1: INTRODUCTION -->
+  <h1 class="chapter-title">Chapter 1 &bull; Introduction</h1>
+  
+  <h2 class="section-title">1.1 Project Overview</h2>
+  <p>MarketInsight is an institutional-grade, full-stack stock market intelligence platform engineered to eliminate information asymmetry for retail investors by integrating real-time market feeds directly into an autonomous agent reasoning loop.</p>
+
+  <div class="info-card">
+    <strong>Key Platform Metrics:</strong>
+    <ul style="margin-left: 20px; margin-top: 8px;">
+      <li><strong>AI Agent Engine:</strong> Google Gemini (<code>gemini-flash-lite-latest</code>) via LangGraph ReAct</li>
+      <li><strong>Live Execution Tools:</strong> 16 Python routines interacting directly with Yahoo Finance</li>
+      <li><strong>Backend:</strong> FastAPI 0.115 async server with token-by-token SSE streaming</li>
+      <li><strong>Frontend:</strong> React 18 + TypeScript + Vite with custom SVG graphics</li>
+      <li><strong>Repository:</strong> <a href="https://github.com/deepak8186863620/Merket-Insights" target="_blank">github.com/deepak8186863620/Merket-Insights</a></li>
+    </ul>
+  </div>
+
+  <h2 class="section-title">1.2 Problem Statement</h2>
+  <p>To design and implement a real-time, AI-driven quantitative stock market intelligence platform that integrates an autonomous ReAct agent with 16 live financial tools, streams natural-language financial intelligence via Server-Sent Events, computes quantitative technical indicators and intrinsic valuations, and presents the results through a modern, responsive Quant Workstation UI.</p>
+
+  <h2 class="section-title">1.3 Project Objectives</h2>
+  <ol style="margin-left: 22px;">
+    <li>Develop an autonomous LangGraph agent that chains multi-step financial tool calls based on user queries.</li>
+    <li>Build 16 deterministic financial tools covering prices, historical OHLCV, financials, options, insider trades, and analyst ratings.</li>
+    <li>Construct a high-performance FastAPI streaming backend using Server-Sent Events with payload sanitization and ToolMessage filtering.</li>
+    <li>Implement quantitative algorithms for Relative Strength Index (RSI), Simple Moving Averages (SMA-20, SMA-50), and Discounted Cash Flow (DCF) intrinsic equity valuation.</li>
+    <li>Engineer a Bloomberg-dark interactive frontend with custom SVG charting, sector treemap heatmaps, and native voice search.</li>
+  </ol>
+
+  <!-- CHAPTER 2: TECHNOLOGY STACK -->
+  <h1 class="chapter-title">Chapter 2 &bull; Technology Used</h1>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Layer</th>
+        <th>Technology</th>
+        <th>Version</th>
+        <th>Role & Purpose</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>AI Reasoning</strong></td>
+        <td>Google Gemini</td>
+        <td><code>gemini-flash-lite-latest</code></td>
+        <td>Natural language comprehension and function-calling decision core</td>
+      </tr>
+      <tr>
+        <td><strong>Agentic Graph</strong></td>
+        <td>LangGraph & LangChain</td>
+        <td>0.4.x / 0.3.x</td>
+        <td>ReAct cyclic state execution loop and tool schemas</td>
+      </tr>
+      <tr>
+        <td><strong>Backend API</strong></td>
+        <td>FastAPI + Uvicorn</td>
+        <td>0.115 / 0.32</td>
+        <td>Async REST endpoints & Server-Sent Events streaming pipeline</td>
+      </tr>
+      <tr>
+        <td><strong>Financial Feed</strong></td>
+        <td>yfinance</td>
+        <td>0.2.x</td>
+        <td>Real-time price discovery, cash flows, balance sheets, analyst data</td>
+      </tr>
+      <tr>
+        <td><strong>Frontend UI</strong></td>
+        <td>React 18 + TypeScript</td>
+        <td>18.3</td>
+        <td>Component-based workstation with strict type safety</td>
+      </tr>
+      <tr>
+        <td><strong>Build Engine</strong></td>
+        <td>Vite</td>
+        <td>5.x</td>
+        <td>Sub-second Hot Module Replacement and production bundling</td>
+      </tr>
+      <tr>
+        <td><strong>Visuals & Voice</strong></td>
+        <td>Custom SVG + Web Speech API</td>
+        <td>Native</td>
+        <td>Zero-dependency interactive charts, treemaps, and speech-to-text</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- CHAPTER 3: METHODOLOGY -->
+  <h1 class="chapter-title">Chapter 3 &bull; Methodology & Architecture</h1>
+
+  <h2 class="section-title">3.1 System Architecture</h2>
+  <p>The application implements a decoupled three-tier architecture: the React 18 presentation layer communicates via HTTP REST and SSE streams with the FastAPI backend, which drives the LangGraph ReAct agent and retrieves live data from Yahoo Finance.</p>
+
+  <h2 class="section-title">3.2 The 16 Financial Tools</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Tool Name</th>
+        <th>Primary Function</th>
+        <th>Real-Time Source</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td><code>get_stock_price</code></td><td>Instant price quote with fallback chain</td><td><code>fast_info.last_price</code></td></tr>
+      <tr><td><code>get_ticker</code></td><td>Maps company names to stock ticker symbols</td><td>Yahoo Search API</td></tr>
+      <tr><td><code>get_stock_info</code></td><td>Full company profile, sector, and multiples</td><td><code>Ticker.info</code></td></tr>
+      <tr><td><code>get_historical_data</code></td><td>OHLCV bars across selectable timeframes</td><td><code>Ticker.history()</code></td></tr>
+      <tr><td><code>get_financials</code></td><td>Annual and quarterly income statement</td><td><code>Ticker.financials</code></td></tr>
+      <tr><td><code>get_balance_sheet</code></td><td>Assets, liabilities, and shareholder equity</td><td><code>Ticker.balance_sheet</code></td></tr>
+      <tr><td><code>get_cash_flow</code></td><td>Operating, investing, and free cash flows</td><td><code>Ticker.cashflow</code></td></tr>
+      <tr><td><code>get_dividends</code></td><td>Historical dividend distributions and yield</td><td><code>Ticker.dividends</code></td></tr>
+      <tr><td><code>get_analyst_recommendations</code></td><td>Buy, Hold, Sell ratings & consensus targets</td><td><code>Ticker.recommendations</code></td></tr>
+      <tr><td><code>get_earnings</code></td><td>EPS actuals vs consensus expectations</td><td><code>Ticker.earnings</code></td></tr>
+      <tr><td><code>get_news</code></td><td>Real-time company news feed with URLs</td><td><code>Ticker.news</code></td></tr>
+      <tr><td><code>get_options_chain</code></td><td>Open interest, implied volatility, calls/puts</td><td><code>Ticker.option_chain()</code></td></tr>
+      <tr><td><code>get_institutional_holders</code></td><td>Top institutional and mutual fund owners</td><td><code>Ticker.institutional_holders</code></td></tr>
+      <tr><td><code>get_insider_transactions</code></td><td>Executive buying and selling activity</td><td><code>Ticker.insider_transactions</code></td></tr>
+      <tr><td><code>get_sector_performance</code></td><td>Cross-sector performance analytics</td><td>Yahoo Sector Indices</td></tr>
+      <tr><td><code>compare_stocks</code></td><td>Side-by-side relative valuation matrix</td><td>Multi-ticker aggregator</td></tr>
+    </tbody>
+  </table>
+
+  <h2 class="section-title">3.3 Quantitative Models</h2>
+
+  <h3 class="subsection-title">A. Relative Strength Index (RSI)</h3>
+  <div class="formula-box">
+    RSI = 100 - [ 100 / (1 + RS) ]<br>
+    where RS = Average Gain (14 periods) / Average Loss (14 periods)<br>
+    Signals: RSI &lt; 30 (OVERSOLD / BUY) &bull; RSI &gt; 70 (OVERBOUGHT / SELL)
+  </div>
+
+  <h3 class="subsection-title">B. Discounted Cash Flow (DCF) Intrinsic Value</h3>
+  <div class="formula-box">
+    PV_CashFlows = &Sigma; [ FCF_0 * (1 + g)^t / (1 + r)^t ] for t = 1 to 5<br>
+    Terminal_Value = [ FCF_5 * (1 + 0.03) ] / (r - 0.03)<br>
+    Intrinsic_Value = PV_CashFlows + [ Terminal_Value / (1 + r)^5 ]<br>
+    Margin_of_Safety = [ (Intrinsic_Value - Current_Price) / Current_Price ] * 100%
+  </div>
+
+  <!-- CHAPTER 4: IMPLEMENTATION & CODE -->
+  <h1 class="chapter-title">Chapter 4 &bull; Implementation & Results</h1>
+
+  <h2 class="section-title">4.1 Core Backend SSE Streaming (main.py)</h2>
+  <pre><code>@app.post("/api/chat")
+async def chat_endpoint(request: ChatRequest):
+    async def event_generator():
+        inputs = {"messages": [HumanMessage(content=request.message)]}
+        async for chunk in agent_executor.astream(inputs, stream_mode="messages"):
+            message = chunk[0] if isinstance(chunk, tuple) else chunk
+            # Filter internal ToolMessages from leaking into chat view
+            if getattr(message, "type", None) == "tool" or message.__class__.__name__ == "ToolMessage":
+                continue
+            text = extract_text(getattr(message, "content", ""))
+            if text:
+                yield f"data: {json.dumps({'text': text})}\n\n"
+        yield f"data: {json.dumps({'done': True})}\n\n"
+    return StreamingResponse(event_generator(), media_type="text/event-stream")</code></pre>
+
+  <h2 class="section-title">4.2 Screenshot & Workstation Feature Demonstrations</h2>
+
+  <div class="screenshot-box">
+    <div class="caption">Figure 4.1 &bull; Quant Workstation Overview</div>
+    <div class="desc">[High-density Bloomberg-dark workstation layout. Top ticker bar displays live NIFTY 50 and S&P 500 indices. Left panel hosts the AI Chat Terminal; right side features the multi-tab analytical suite: Chart Studio, DCF Simulator, Sector Treemap, Watchlist, and Asset Duel.]</div>
+  </div>
+
+  <div class="screenshot-box">
+    <div class="caption">Figure 4.2 &bull; AI Terminal with Dynamic Audit Badges</div>
+    <div class="desc">[Streaming AI interaction for query "Analyze TCS vs Infosys". System shows tool invocation trail: [get_ticker] [get_stock_price] [compare_stocks] [get_analyst_recommendations] followed by structured financial analysis.]</div>
+  </div>
+
+  <div class="screenshot-box">
+    <div class="caption">Figure 4.3 &bull; Interactive SVG Chart Studio</div>
+    <div class="desc">[Candlestick chart for Apple Inc. (AAPL) with active hover crosshair showing OHLCV coordinates. Overlays 20-day and 50-day moving averages alongside RSI momentum oscillator (58.7, BUY signal).]</div>
+  </div>
+
+  <div class="screenshot-box">
+    <div class="caption">Figure 4.4 &bull; DCF Intrinsic Valuation Simulator</div>
+    <div class="desc">[Live valuation workspace. Real free cash flow extracted from Yahoo Finance. Interactive Growth Rate and WACC sliders instantly update Intrinsic Value ($462.10) vs Current Price ($415.20), showing +11.3% Undervalued.]</div>
+  </div>
+
+  <!-- CHAPTER 5: CHALLENGES & SOLUTIONS -->
+  <h1 class="chapter-title">Chapter 5 &bull; Challenges Faced & Solutions</h1>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Challenge</th>
+        <th>Root Cause</th>
+        <th>Engineering Solution</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>LLM Deprecation / 503 Errors</strong></td>
+        <td><code>gemini-2.0-flash</code> retired (404); preview endpoints overloaded (503)</td>
+        <td>Switched to production-stable <code>gemini-flash-lite-latest</code> with high availability</td>
+      </tr>
+      <tr>
+        <td><strong>Polymorphic SSE Chunks</strong></td>
+        <td>Gemini returns structured lists of dicts instead of plain strings</td>
+        <td>Built recursive <code>extract_text()</code> normalizer in <code>main.py</code></td>
+      </tr>
+      <tr>
+        <td><strong>ToolMessage Data Leaks</strong></td>
+        <td>LangGraph broadcasts raw tool outputs across message streams</td>
+        <td>Implemented strict class/type filtering to isolate user tokens</td>
+      </tr>
+      <tr>
+        <td><strong>Yahoo Finance 429 Rate Limits</strong></td>
+        <td>Scraper detection blocked rapid repeated queries</td>
+        <td>Added custom browser <code>User-Agent</code> headers and switched to <code>fast_info</code></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- CHAPTER 6 & 7: SCOPE & CONCLUSION -->
+  <h1 class="chapter-title">Chapter 6 &bull; Scope & Future Roadmap</h1>
+  <p><strong>In-Scope Deliverables:</strong> Autonomous ReAct agent with 16 tools, SSE streaming, audit trail badging, custom SVG charting with RSI/SMA, DCF simulator, sector heatmap, and voice queries.</p>
+  <p><strong>Future Extensibility:</strong> WebSocket-driven real-time streaming, user portfolio P&L tracking via Supabase, Black-Scholes Options Greeks calculator, and earnings call transcript sentiment analysis.</p>
+
+  <h1 class="chapter-title">Chapter 7 &bull; Conclusion</h1>
+  <p>MarketInsight v2.0 successfully bridges the gap between static generative language models and dynamic financial markets. By uniting a LangGraph ReAct agent with real-time financial tools and an institutional-grade React frontend, the platform democratizes quantitative market analytics for retail investors and academic researchers.</p>
+
+  <div style="margin-top: 50px; text-align: center; color: var(--text-secondary); font-size: 13px; border-top: 1px solid var(--border-color); padding-top: 20px;">
+    Report prepared by <strong>Deepak Prajapati</strong> &bull; Chaitanya Bharathi Institute of Technology (A) &bull; Academic Year 2026–2027
+  </div>
+
+</div>
+
+</body>
+</html>

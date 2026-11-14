@@ -3,6 +3,10 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+# Temporary external reports
+InternBridge*.pdf
+
+
 # C extensions
 *.so
 

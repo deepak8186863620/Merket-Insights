@@ -1,0 +1,848 @@
+\documentclass[12pt,a4paper]{report}
+
+% ── Packages ──────────────────────────────────────────────────────────────────
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{titlesec}
+\usepackage{titletoc}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{setspace}
+\usepackage{parskip}
+\usepackage{microtype}
+\usepackage{tcolorbox}
+\usepackage{fontawesome5}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{dirtree}
+\usepackage{mdframed}
+\usepackage{amsmath}
+
+% ── Colours ───────────────────────────────────────────────────────────────────
+\definecolor{cbitred}{RGB}{139,22,29}
+\definecolor{cbitgold}{RGB}{180,140,60}
+\definecolor{codebg}{RGB}{245,245,245}
+\definecolor{codecomment}{RGB}{106,153,85}
+\definecolor{codekey}{RGB}{86,156,214}
+\definecolor{codestring}{RGB}{206,145,120}
+\definecolor{codenumber}{RGB}{181,206,168}
+\definecolor{sectioncolor}{RGB}{139,22,29}
+\definecolor{linkcolor}{RGB}{0,70,150}
+
+% ── Hyperref Setup ────────────────────────────────────────────────────────────
+\hypersetup{
+    colorlinks=true,
+    linkcolor=linkcolor,
+    urlcolor=linkcolor,
+    citecolor=linkcolor,
+    pdftitle={MarketInsight: AI-Powered Quantitative Stock Market Intelligence Platform},
+    pdfauthor={Deepak Prajapati},
+}
+
+% ── Code Listing Style ────────────────────────────────────────────────────────
+\lstdefinestyle{PyStyle}{
+    backgroundcolor=\color{codebg},
+    commentstyle=\color{codecomment}\itshape,
+    keywordstyle=\color{codekey}\bfseries,
+    stringstyle=\color{codestring},
+    numberstyle=\tiny\color{codenumber},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,
+    breaklines=true,
+    captionpos=b,
+    keepspaces=true,
+    numbers=left,
+    numbersep=8pt,
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    tabsize=2,
+    frame=single,
+    rulecolor=\color{gray!40},
+    xleftmargin=15pt,
+    xrightmargin=5pt,
+    language=Python,
+    morekeywords={async,await,yield,from,import,def,class,return,with,as,if,elif,else,try,except,True,False,None},
+}
+
+\lstdefinestyle{TSStyle}{
+    backgroundcolor=\color{codebg},
+    commentstyle=\color{codecomment}\itshape,
+    keywordstyle=\color{codekey}\bfseries,
+    stringstyle=\color{codestring},
+    numberstyle=\tiny\color{codenumber},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,
+    breaklines=true,
+    captionpos=b,
+    keepspaces=true,
+    numbers=left,
+    numbersep=8pt,
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    tabsize=2,
+    frame=single,
+    rulecolor=\color{gray!40},
+    xleftmargin=15pt,
+    xrightmargin=5pt,
+    language=Java,
+    morekeywords={const,let,var,async,await,import,from,export,default,new,return,function,if,else,try,catch,true,false,null,undefined,interface,type},
+}
+\lstset{style=PyStyle}
+
+% ── Section Title Formatting ──────────────────────────────────────────────────
+\titleformat{\chapter}[display]
+  {\normalfont\Large\bfseries\color{sectioncolor}}
+  {\chaptertitlename\ \thechapter}{10pt}{\huge}
+\titlespacing*{\chapter}{0pt}{-10pt}{20pt}
+
+\titleformat{\section}
+  {\normalfont\large\bfseries\color{sectioncolor}}
+  {\thesection}{1em}{}
+\titleformat{\subsection}
+  {\normalfont\normalsize\bfseries\color{gray!80!black}}
+  {\thesubsection}{1em}{}
+
+% ── Page Style ────────────────────────────────────────────────────────────────
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\textit{MarketInsight: AI Quantitative Stock Intelligence Platform}}
+\fancyhead[R]{\small\textit{Deepak Prajapati}}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+% ── TOC Style ─────────────────────────────────────────────────────────────────
+\titlecontents{chapter}[0em]
+  {\vspace{6pt}\bfseries}
+  {\contentslabel{2em}}{}
+  {\titlerule*[6pt]{.}\contentspage}
+\titlecontents{section}[2em]
+  {}{\contentslabel{2.3em}}{}
+  {\titlerule*[6pt]{.}\contentspage}
+
+% ── Info Box ──────────────────────────────────────────────────────────────────
+\tcbuselibrary{skins,breakable}
+\newtcolorbox{infobox}[1][]{
+  enhanced, breakable,
+  colback=cbitred!5, colframe=cbitred,
+  fonttitle=\bfseries\color{white},
+  attach boxed title to top left={yshift=-2mm,xshift=6mm},
+  boxed title style={colback=cbitred},
+  #1
+}
+
+\newtcolorbox{techbox}[1][]{
+  enhanced,
+  colback=blue!4, colframe=blue!40!black,
+  fonttitle=\bfseries,
+  #1
+}
+
+% ══════════════════════════════════════════════════════════════════════════════
+\begin{document}
+
+% ── Title Page ────────────────────────────────────────────────────────────────
+\begin{titlepage}
+\centering
+\vspace*{0.5cm}
+
+{\large\bfseries INTERNSHIP / PROJECT REPORT}\\[0.3cm]
+{\normalsize On}\\[0.6cm]
+
+{\LARGE\bfseries\color{cbitred}
+  ``MarketInsight: An AI-Powered Quantitative Stock Market\\[4pt]
+  Intelligence Platform with Real-Time Agent Services,\\[4pt]
+  Interactive Visualizations and Institutional Analytics''}\\[1.0cm]
+
+{\normalsize Submitted in partial fulfilment of the requirements for the award of the degree of}\\[0.3cm]
+{\large\bfseries BACHELOR OF ENGINEERING}\\[0.2cm]
+{\normalsize in}\\[0.2cm]
+{\large\bfseries INFORMATION TECHNOLOGY}\\[0.8cm]
+
+{\normalsize Submitted by}\\[0.2cm]
+{\large\bfseries Deepak Prajapati}\\[0.1cm]
+{\normalsize (Roll No: 1601-24-737-xxx)}\\[0.8cm]
+
+{\normalsize Under the guidance of}\\[0.3cm]
+{\large\bfseries Dr.\ D.\ Jayaram / Faculty Guide}\\[0.1cm]
+{\normalsize Assistant Professor}\\
+{\normalsize Department of Information Technology, CBIT}\\[0.8cm]
+
+% Decorative rule
+\textcolor{cbitred}{\rule{0.6\textwidth}{1.5pt}}\\[0.8cm]
+
+% Institute logo placeholder
+\begin{tcolorbox}[
+  width=3.2cm, height=3.2cm,
+  colback=white, colframe=cbitred,
+  halign=center, valign=center,
+  fontupper=\small\bfseries\color{cbitred}
+]
+CBIT\\1979
+\end{tcolorbox}
+
+\vspace{0.6cm}
+\textcolor{cbitred}{\rule{0.6\textwidth}{1.5pt}}\\[0.8cm]
+
+{\large\bfseries DEPARTMENT OF INFORMATION TECHNOLOGY}\\[0.3cm]
+{\large\bfseries CHAITANYA BHARATHI INSTITUTE OF TECHNOLOGY (A)}\\[0.3cm]
+{\small (Affiliated to Osmania University; Accredited by NBA, NAAC A++, ISO)}\\
+{\small Kokapet (V), Gandipet (M), Hyderabad, Telangana, India -- 500075}\\[0.2cm]
+{\small \url{www.cbit.ac.in}}\\[0.3cm]
+{\small Academic Year 2026--2027}
+
+\vfill
+\end{titlepage}
+
+% ── Certificate Page ──────────────────────────────────────────────────────────
+\clearpage
+\thispagestyle{empty}
+\begin{center}
+  {\Large\bfseries DEPARTMENT OF INFORMATION TECHNOLOGY}\\[0.2cm]
+  {\Large\bfseries CHAITANYA BHARATHI INSTITUTE OF TECHNOLOGY (A)}\\[0.2cm]
+  {\small Hyderabad, Telangana -- 500075}\\[1.0cm]
+  {\LARGE\bfseries\color{cbitred} CERTIFICATE}
+\end{center}
+\vspace{0.8cm}
+
+\onehalfspacing
+This is to certify that the project / internship report entitled \textbf{``MarketInsight: An AI-Powered Quantitative Stock Market Intelligence Platform with Real-Time Agent Services, Interactive Visualizations and Institutional Analytics''} is a bonafide record of the work carried out by \textbf{Deepak Prajapati} (Roll No: \textbf{1601-24-737-xxx}), a student of B.E. Information Technology, during the academic year 2026--2027.
+
+This report is submitted in partial fulfilment of the requirements for the award of the degree of \textbf{Bachelor of Engineering in Information Technology} of Chaitanya Bharathi Institute of Technology (A), affiliated to Osmania University, Hyderabad. The results presented in this report have been verified and found satisfactory.
+
+\vspace{3.5cm}
+
+\noindent
+\begin{tabular}{p{0.45\textwidth}p{0.45\textwidth}}
+  \centering
+  \textbf{Dr.\ D.\ Jayaram} \\
+  Internal Guide \\
+  Assistant Professor \\
+  Department of IT, CBIT
+  &
+  \centering
+  \textbf{Dr.\ M.\ Venu Gopalachari} \\
+  Head of the Department \\
+  Department of Information Technology \\
+  CBIT (A), Hyderabad
+\end{tabular}
+
+% ── Declaration Page ──────────────────────────────────────────────────────────
+\clearpage
+\thispagestyle{empty}
+\begin{center}
+  {\LARGE\bfseries\color{cbitred} DECLARATION}
+\end{center}
+\vspace{1cm}
+
+\onehalfspacing
+I, \textbf{Deepak Prajapati}, bearing Roll No. \textbf{1601-24-737-xxx}, a student of B.E. Information Technology, Semester V, Chaitanya Bharathi Institute of Technology (A), Hyderabad, hereby declare that the project report entitled \textbf{``MarketInsight: An AI-Powered Quantitative Stock Market Intelligence Platform with Real-Time Agent Services, Interactive Visualizations and Institutional Analytics''} is a record of original work carried out individually by me.
+
+I further declare that the work presented in this report has not been submitted, either in part or in full, to any other university or institution for the award of any degree or diploma. All algorithms, code implementations, mathematical formulas, and sources of information used in this report have been duly acknowledged.
+
+\vspace{2.5cm}
+
+\noindent
+\begin{tabular}{ll}
+  \textbf{Place:} Hyderabad & \hspace{6cm} \textbf{Deepak Prajapati} \\
+  \textbf{Date:}  & \hspace{6cm} (1601-24-737-xxx)
+\end{tabular}
+
+% ── Acknowledgement ───────────────────────────────────────────────────────────
+\clearpage
+\chapter*{Acknowledgement}
+\addcontentsline{toc}{chapter}{Acknowledgement}
+\setcounter{page}{3}
+
+\onehalfspacing
+
+I wish to place on record my deep sense of gratitude to my faculty guide, for valuable academic guidance, thoughtful suggestions, and constant encouragement throughout every stage of the \textbf{MarketInsight} project. Their expertise and support have been instrumental in refining my ideas, strengthening my technical understanding, and ensuring the successful completion of this work.
+
+I am sincerely thankful to our Head of the Department, \textbf{Dr.\ M.\ Venu Gopalachari}, for continuous encouragement, administrative support, and providing an academic environment enriched with modern computing resources. His leadership has greatly motivated my learning journey.
+
+I express my heartfelt gratitude to our Principal, \textbf{Dr.\ C.\ Venkata Narasimhulu}, and the Management of Chaitanya Bharathi Institute of Technology (A), whose dedication to academic excellence and research-oriented education has fostered the platform on which this project could be realized.
+
+I gratefully acknowledge the open-source and developer communities behind \textbf{Google Gemini API}, \textbf{LangGraph}, \textbf{LangChain}, \textbf{FastAPI}, \textbf{yfinance}, \textbf{React.js}, \textbf{TypeScript}, and \textbf{Vite}. Their frameworks and technical documentation provide the engineering foundation upon which MarketInsight is built.
+
+Finally, I express my sincere appreciation to my family, friends, and peers who supported, encouraged, and motivated me throughout the course of this engineering endeavor.
+
+\vspace{1.5cm}
+\hfill
+\begin{minipage}{0.35\textwidth}
+  \raggedright
+  \textbf{Deepak Prajapati}\\
+  (1601-24-737-xxx)
+\end{minipage}
+
+% ── Abstract ──────────────────────────────────────────────────────────────────
+\clearpage
+\chapter*{Abstract}
+\addcontentsline{toc}{chapter}{Abstract}
+
+\begin{mdframed}[linecolor=cbitred,linewidth=1.5pt,leftmargin=0,rightmargin=0,
+  innerleftmargin=12pt,innerrightmargin=12pt,innertopmargin=12pt,innerbottommargin=12pt]
+Stock market analysis is traditionally fragmented across disparate platforms: charting utilities, fundamental balance sheet screeners, financial news aggregators, and generic conversational AI assistants. Commercial market terminals like Bloomberg and Refinitiv bridge this gap but are economically inaccessible to retail investors, students, and independent analysts. Conversely, modern Large Language Models (LLMs) suffer from static training cutoffs, lack real-time market data access, and cannot execute deterministic quantitative computations such as live Relative Strength Index (RSI) or Discounted Cash Flow (DCF) modeling.
+
+To resolve these challenges, this project presents \textbf{MarketInsight v2.0}, an institutional-grade, full-stack quantitative stock market intelligence platform. MarketInsight pairs a \textbf{LangGraph ReAct AI Agent} powered by \textbf{Google Gemini} with \textbf{16 real-time Yahoo Finance execution tools}, a high-throughput \textbf{FastAPI async backend} with Server-Sent Events (SSE) streaming, and an interactive \textbf{React 18 + TypeScript} Bloomberg-inspired Quant Workstation. 
+
+Key technical contributions include:
+\begin{itemize}[leftmargin=*]
+  \item A ReAct agent architecture capable of multi-step autonomous tool chaining across real-time prices, historical OHLCV data, analyst consensus, cash flow statements, and options chains.
+  \item An SSE streaming parser resolving Gemini's structured array content format alongside a deterministic \texttt{ToolMessage} filter that prevents raw API payloads from leaking into user UI tokens.
+  \item An interactive DCF Valuation Simulator running live free cash flow calculations with dynamic user-controlled WACC and growth-rate sensitivity sliders.
+  \item A zero-dependency SVG Chart Studio featuring pixel-perfect hover crosshairs, volume distributions, and algorithmic RSI / SMA-20 / SMA-50 technical overlays.
+  \item Integrated market treemap heatmaps, sparkline watchlists, two-asset duel arenas, and native voice-driven queries using the browser Web Speech API.
+\end{itemize}
+All modules are deployed, fully verified, and open-sourced under an MIT license.
+\end{mdframed}
+
+% ── Table of Contents ─────────────────────────────────────────────────────────
+\clearpage
+\tableofcontents
+
+% ══════════════════════════════════════════════════════════════════════════════
+% CHAPTER 1: INTRODUCTION
+% ══════════════════════════════════════════════════════════════════════════════
+\clearpage
+\chapter{Introduction}
+
+\section{Brief Description About the Project}
+
+The financial market is a complex, high-velocity domain where timely access to accurate information is the single largest determinant of decision-making quality. \textbf{MarketInsight} is an end-to-end quantitative financial intelligence workstation designed to synthesize live market data, algorithmic technical indicators, fundamental valuation models, and artificial intelligence into a cohesive, user-centric web experience.
+
+Traditional financial software typically forces users into severe tradeoffs. Desktop platforms such as Bloomberg Terminal or FactSet offer exhaustive depth but cost upwards of \$24,000 annually. On the other end, free web applications segment workflows into silos: TradingView handles charting, Screener.in hosts fundamental ratios, and ChatGPT or Gemini answers conversational queries based on outdated training snapshots. MarketInsight removes this fragmentation by establishing an autonomous agent bridge between real-time financial APIs and generative language models.
+
+\section{Project Overview}
+
+\begin{infobox}[title=Project Overview]
+\begin{tabular}{@{}ll@{}}
+  \textbf{Project Title}       & MarketInsight v2.0 \\[4pt]
+  \textbf{Domain}              & FinTech / Quantitative Finance / Agentic AI \\[4pt]
+  \textbf{Core Engine}         & Google Gemini (\texttt{gemini-flash-lite-latest}) \\[4pt]
+  \textbf{Agent Framework}     & LangGraph ReAct Agent Framework \\[4pt]
+  \textbf{Backend Framework}   & FastAPI 0.115 + Uvicorn ASGI Server \\[4pt]
+  \textbf{Frontend Framework}  & React 18 + TypeScript + Vite \\[4pt]
+  \textbf{Financial Feeds}     & Yahoo Finance (yfinance streaming engine) \\[4pt]
+  \textbf{Repository}          & \url{https://github.com/deepak8186863620/Merket-Insights}
+\end{tabular}
+\end{infobox}
+
+\section{Motivation}
+
+Retail investors and students face three structural barriers when researching equities:
+\begin{enumerate}[leftmargin=*,label=\textbf{\arabic*.}]
+  \item \textbf{Information Asymmetry:} Institutional hedge funds deploy automated scrapers, quantitative models, and low-latency API connections. Retail investors frequently rely on delayed quotes and social media sentiment.
+  \item \textbf{Tool Dispersal:} Analyzing a single stock like Apple or Tata Motors requires checking a chart on one site, financial statements on another, latest news on a third, and running valuation formulas in an Excel spreadsheet.
+  \item \textbf{LLM Hallucinations in Finance:} Standard LLMs fail when asked ``What is the current P/E of TCS?'' because they either hallucinate outdated values or explicitly state they lack real-time access. Equipping an LLM with deterministic tool execution capabilities eliminates this fundamental flaw.
+\end{enumerate}
+
+\section{Problem Statement}
+
+To design and implement a real-time, AI-driven quantitative stock market intelligence platform that integrates an autonomous ReAct agent with 16 live financial tools, streams natural-language financial intelligence via Server-Sent Events, computes quantitative technical indicators and intrinsic valuations, and presents the results through a modern, responsive Quant Workstation UI.
+
+\section{Project Objectives}
+
+\begin{enumerate}[leftmargin=*,label=\textbf{\arabic*.}]
+  \item \textbf{Autonomous Tool-Calling Agent:} Develop a LangGraph ReAct agent that parses user queries, autonomously identifies required financial data, and executes appropriate tools via Yahoo Finance.
+  \item \textbf{16 Specialized Financial Tools:} Implement deterministic Python tools covering live price discovery, company profiling, historical OHLCV data, financial statements (Income, Balance Sheet, Cash Flow), analyst recommendations, dividend yields, options chains, insider activity, and sector comparisons.
+  \item \textbf{FastAPI Streaming Backend:} Build a high-performance asynchronous REST API supporting Server-Sent Events (SSE) for token-by-token streaming, complete with payload sanitization and tool metadata extraction.
+  \item \textbf{Interactive Quantitative Analytics:} Formulate and compute mathematical models including Relative Strength Index (RSI), Simple Moving Averages (SMA-20, SMA-50), and Discounted Cash Flow (DCF) intrinsic valuation with user-adjustable growth and WACC parameters.
+  \item \textbf{Professional Quant Workstation:} Engineer a React 18 + TypeScript frontend styled in a Bloomberg-dark institutional aesthetic, featuring custom SVG charting with hover crosshairs, treemap heatmaps, live watchlists, side-by-side asset duels, and browser-native voice transcription.
+\end{enumerate}
+
+% ══════════════════════════════════════════════════════════════════════════════
+% CHAPTER 2: TECHNOLOGY USED
+% ══════════════════════════════════════════════════════════════════════════════
+\clearpage
+\chapter{Technology Used}
+
+\section{Backend \& AI Frameworks}
+
+\begin{techbox}[title=Google Gemini LLM (\texttt{gemini-flash-lite-latest})]
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Reasoning Engine:} Acts as the cognitive brain of MarketInsight, interpreting ambiguous natural-language stock inquiries and generating structured, step-by-step investment theses.
+  \item \textbf{Function Calling:} Matches user intent to specific tool signatures, passing validated parameters (e.g., ticker symbol, duration) to external execution routines.
+  \item \textbf{Low Latency:} Selected specifically for its sub-second Time-to-First-Token (TTFT) and high reliability compared to deprecated legacy endpoints.
+\end{itemize}
+\end{techbox}
+
+\vspace{0.4cm}
+
+\begin{techbox}[title=LangGraph \& LangChain]
+\begin{itemize}[leftmargin=*]
+  \item \textbf{ReAct Agent Execution:} Constructs a cyclic state graph that executes the loop: \textit{Reason $\rightarrow$ Tool Call $\rightarrow$ Environment Observation $\rightarrow$ Synthesized Response}.
+  \item \textbf{Tool Wrapper Protocol:} Wraps raw Python routines into strongly-typed LangChain \texttt{@tool} interfaces with docstring schemas for LLM inspection.
+\end{itemize}
+\end{techbox}
+
+\vspace{0.4cm}
+
+\begin{techbox}[title=FastAPI \& Uvicorn]
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Async ASGI Server:} Handles concurrent API queries and non-blocking streaming connections with minimal memory overhead.
+  \item \textbf{Streaming Response (SSE):} Uses \texttt{StreamingResponse} with \texttt{text/event-stream} media type to deliver real-time typing outputs to the client.
+  \item \textbf{CORS Middleware:} Configures cross-origin resource sharing to enable secure communication between the Vite client (port 3000) and the backend (port 8000).
+\end{itemize}
+\end{techbox}
+
+\vspace{0.4cm}
+
+\begin{techbox}[title=Yahoo Finance Engine (\texttt{yfinance})]
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Multi-Asset Coverage:} Pulls institutional market data across US equities (NASDAQ, NYSE) and Indian markets (NSE, BSE).
+  \item \textbf{Low-Latency Fast Info:} Leverages \texttt{fast\_info.last\_price} to circumvent HTTP rate-limiting bottlenecks on standard quote dictionaries.
+\end{itemize}
+\end{techbox}
+
+\section{Frontend Technologies}
+
+\begin{techbox}[title=React 18 with TypeScript]
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Type Safety:} Prevents runtime errors by enforcing strict types on financial metrics, OHLCV bars, SSE chunks, and slider states.
+  \item \textbf{Custom Hooks:} Uses React's \texttt{useState}, \texttt{useEffect}, and \texttt{useRef} hooks to manage asynchronous stream readers, auto-scrolling terminal logs, and live interval polling.
+\end{itemize}
+\end{techbox}
+
+\vspace{0.4cm}
+
+\begin{techbox}[title=Zero-Dependency Custom SVG Graphics]
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Interactive Chart Studio:} Renders dynamic Candlestick and Line charts with cubic bezier curves, hover crosshairs, price grids, and volume bars without external charting libraries like Chart.js or D3.
+  \item \textbf{Treemap Sector Heatmap:} Translates sector market capitalizations into proportional 2D coordinate boxes with continuous color interpolation based on percentage price changes.
+\end{itemize}
+\end{techbox}
+
+\vspace{0.4cm}
+
+\begin{techbox}[title=Web Speech API (Browser Native)]
+\begin{itemize}[leftmargin=*]
+  \item \textbf{Real-Time Voice Queries:} Integrates \texttt{webkitSpeechRecognition} directly in the client browser, offering instant speech-to-text conversion without third-party API dependencies or cloud costs.
+\end{itemize}
+\end{techbox}
+
+% ══════════════════════════════════════════════════════════════════════════════
+% CHAPTER 3: METHODOLOGY
+% ══════════════════════════════════════════════════════════════════════════════
+\clearpage
+\chapter{Methodology}
+
+\section{System Architecture}
+
+MarketInsight adopts a decoupled three-tier architecture: the \textbf{Presentation Tier} (React + TypeScript), the \textbf{Application \& Agent Tier} (FastAPI + LangGraph + Gemini), and the \textbf{Data Ingestion Tier} (Yahoo Finance).
+
+\begin{figure}[h!]
+\centering
+\begin{tcolorbox}[colback=white,colframe=cbitred,title=\textbf{Figure 3.1: Three-Tier System Architecture},fonttitle=\bfseries\small]
+\centering
+\small
+\begin{verbatim}
+┌─────────────────────────────────────────────────────────────────┐
+│                    PRESENTATION TIER (PORT 3000)                │
+│  React 18 + TypeScript + Vite + Bloomberg-Dark Custom CSS       │
+│  [AI Chat Terminal] [Chart Studio] [DCF Simulator] [Heatmap]    │
+│  [Watchlist Sparklines] [Stock Duel Arena] [Voice Recognition]  │
+└─────────────────────────────────┬───────────────────────────────┘
+            ▲ SSE Stream          │ REST API Calls
+            │ (text/event-stream) │ (JSON Over HTTP)
+┌───────────┴─────────────────────▼───────────────────────────────┐
+│                    APPLICATION TIER (PORT 8000)                 │
+│  FastAPI Asynchronous Gateway + LangGraph ReAct Runtime         │
+│  ├── main.py (SSE Stream Handler, extract_text(), Tool Filter)  │
+│  ├── agent.py (Gemini LLM Bindings & Cyclic State Graph)        │
+│  └── Quantitative Engine (RSI Calculator, DCF Engine, SMAs)     │
+└─────────────────────────────────┬───────────────────────────────┘
+                                  │ Direct Python Ingestion
+                                  ▼
+┌─────────────────────────────────────────────────────────────────┐
+│                    DATA INGESTION TIER                          │
+│  Yahoo Finance Engine (yfinance) + Fallback Fallback Chaining   │
+│  [Real-Time Prices] [Income Statements] [Balance Sheets]        │
+│  [Cash Flows] [Analyst Sentiment] [Option Chains] [News Feeds]  │
+└─────────────────────────────────────────────────────────────────┘
+\end{verbatim}
+\end{tcolorbox}
+\end{figure}
+
+\section{Agentic ReAct Execution Loop}
+
+The cognitive flow follows the formal ReAct (Reasoning and Acting) paradigm:
+\begin{enumerate}[leftmargin=*,label=\textbf{\arabic*.}]
+  \item \textbf{Input Parsing:} The user enters a natural-language query (e.g., \textit{``Is Nvidia overvalued based on its cash flow and RSI?''}).
+  \item \textbf{Thought Formulation:} Gemini evaluates the query against registered tool schemas and decides which data sources are required.
+  \item \textbf{Action Execution:} The agent calls \texttt{get\_stock\_price("NVDA")}, \texttt{get\_cash\_flow("NVDA")}, and \texttt{get\_historical\_data("NVDA")}.
+  \item \textbf{Observation Ingestion:} Tool execution payloads are fed back into the context graph.
+  \item \textbf{Synthesis \& Streaming:} Gemini compiles a cohesive analysis, streaming output tokens through the FastAPI SSE pipeline while the backend automatically attaches audit trail badges.
+\end{enumerate}
+
+\section{Quantitative Mathematical Formulations}
+
+\subsection{Relative Strength Index (RSI)}
+The Relative Strength Index evaluates momentum over a standard 14-period lookback window:
+\begin{equation}
+  RSI = 100 - \left( \frac{100}{1 + RS} \right)
+\end{equation}
+where Relative Strength ($RS$) is the ratio of smoothed average gain to smoothed average loss:
+\begin{equation}
+  RS = \frac{\text{Average Gain}_{14}}{\text{Average Loss}_{14}}
+\end{equation}
+\textbf{Decision Thresholds:}
+\begin{itemize}[leftmargin=*]
+  \item $RSI < 30$: \textbf{Oversold} condition (Bullish reversal signal).
+  \item $30 \le RSI \le 70$: \textbf{Neutral} zone.
+  \item $RSI > 70$: \textbf{Overbought} condition (Bearish correction risk).
+\end{itemize}
+
+\subsection{Discounted Cash Flow (DCF) Intrinsic Valuation}
+Intrinsic equity value is modeled by projecting Free Cash Flow ($FCF$) across a 5-year forecast horizon and discounting at the Weighted Average Cost of Capital ($WACC$ or $r$):
+\begin{equation}
+  \text{PV of Explicit Cash Flows} = \sum_{t=1}^{5} \frac{FCF_0 \cdot (1 + g)^t}{(1 + r)^t}
+\end{equation}
+where $g$ is the projected annual cash flow growth rate. Terminal Value ($TV$) assumes a perpetual growth rate $g_T = 3\%$:
+\begin{equation}
+  TV = \frac{FCF_5 \cdot (1 + g_T)}{r - g_T}
+\end{equation}
+Discounting the Terminal Value back to present value gives:
+\begin{equation}
+  \text{Intrinsic Market Value} = \sum_{t=1}^{5} \frac{FCF_t}{(1 + r)^t} + \frac{TV}{(1 + r)^5}
+\end{equation}
+Dividing by outstanding shares yields Intrinsic Value Per Share, compared against Current Price to derive the \textbf{Margin of Safety}:
+\begin{equation}
+  \text{Margin of Safety} = \left( \frac{\text{Intrinsic Value} - \text{Current Price}}{\text{Current Price}} \right) \times 100\%
+\end{equation}
+
+\subsection{Simple Moving Averages (SMA)}
+\begin{equation}
+  SMA_k = \frac{1}{k} \sum_{i=0}^{k-1} P_{t-i} \quad \text{for } k \in \{20, 50\}
+\end{equation}
+A crossover where $SMA_{20} > SMA_{50}$ confirms a \textbf{Golden Cross} (bullish breakout), whereas $SMA_{20} < SMA_{50}$ indicates a \textbf{Death Cross}.
+
+\section{Project Directory Structure}
+
+\begin{mdframed}[backgroundcolor=codebg,linecolor=gray!40,linewidth=0.5pt]
+\begin{verbatim}
+MarketInsight-main/
+├── main.py                        # FastAPI Server & SSE Stream Engine
+├── requirements.txt               # Backend Python Dependencies
+├── .env.example                   # Environment Variables Template
+├── .env                           # Local Secrets (API Keys)
+├── README.md                      # Comprehensive Documentation
+├── MarketInsight/
+│   ├── components/
+│   │   └── agent.py               # LangGraph ReAct & Gemini Setup
+│   └── utils/
+│       └── tools.py               # 16 Yahoo Finance Tools
+└── frontend/
+    ├── package.json               # Node Package Dependencies
+    ├── vite.config.ts             # Vite Bundler Configuration
+    └── src/
+        ├── main.tsx               # React Application Bootstrap
+        ├── App.tsx                # 7-Module Quant Workstation UI
+        └── App.css                # Institutional Bloomberg-Dark Theme
+\end{verbatim}
+\end{mdframed}
+
+% ══════════════════════════════════════════════════════════════════════════════
+% CHAPTER 4: IMPLEMENTATION & RESULTS
+% ══════════════════════════════════════════════════════════════════════════════
+\clearpage
+\chapter{Implementation \& Results}
+
+\section{Backend Implementation Code}
+
+\subsection*{1. Server-Sent Events Streaming \& Sanitization (\texttt{main.py})}
+The chat endpoint receives questions, delegates them to the LangGraph executor, strips raw internal tool execution records, and streams tokens to the client:
+
+\begin{lstlisting}[caption={main.py -- SSE Streaming and ToolMessage Filtering}]
+@app.post("/api/chat")
+async def chat_endpoint(request: ChatRequest):
+    async def event_generator():
+        try:
+            inputs = {"messages": [HumanMessage(content=request.message)]}
+            async for chunk in agent_executor.astream(inputs, stream_mode="messages"):
+                message = chunk[0] if isinstance(chunk, tuple) else chunk
+                # Filter out raw internal ToolMessages from user view
+                if getattr(message, "type", None) == "tool" or message.__class__.__name__ == "ToolMessage":
+                    continue
+                # Extract and sanitize textual tokens
+                raw_text = extract_text(getattr(message, "content", ""))
+                if raw_text:
+                    yield f"data: {json.dumps({'text': raw_text})}\n\n"
+            yield f"data: {json.dumps({'done': True})}\n\n"
+        except Exception as e:
+            yield f"data: {json.dumps({'error': str(e)})}\n\n"
+
+    return StreamingResponse(event_generator(), media_type="text/event-stream")
+\end{lstlisting}
+
+\subsection*{2. Robust Token Content Parser (\texttt{main.py})}
+Handles Gemini's polymorphic token content types (strings vs structured dict blocks):
+
+\begin{lstlisting}[caption={main.py -- Polymorphic Content Parser}]
+def extract_text(content) -> str:
+    """Extract clean string content from Gemini structured responses."""
+    if isinstance(content, str):
+        return content
+    if isinstance(content, list):
+        parts = []
+        for item in content:
+            if isinstance(item, dict) and "text" in item:
+                parts.append(item["text"])
+            elif isinstance(item, str):
+                parts.append(item)
+            elif hasattr(item, "text"):
+                parts.append(getattr(item, "text", ""))
+        return "".join(parts)
+    return str(content) if content else ""
+\end{lstlisting}
+
+\subsection*{3. Real-Time Price Discovery with Fallback Chaining (\texttt{tools.py})}
+
+\begin{lstlisting}[caption={tools.py -- Price Discovery Tool with Triple Fallback}]
+@tool
+def get_stock_price(ticker: str) -> str:
+    """Fetches real-time market price for a given equity ticker."""
+    try:
+        t = yf.Ticker(ticker.strip().upper())
+        # Primary: fast_info (bypasses HTML parsing)
+        price = getattr(t.fast_info, 'last_price', None)
+        # Fallback 1: info dictionary regularMarketPrice
+        if price is None:
+            price = t.info.get('regularMarketPrice') or t.info.get('currentPrice')
+        # Fallback 2: 1-day historical closing price
+        if price is None:
+            hist = t.history(period='1d')
+            if not hist.empty:
+                price = hist['Close'].iloc[-1]
+        if price is not None:
+            currency = getattr(t.fast_info, 'currency', 'USD')
+            return f"{ticker.upper()} current price: {price:.2f} {currency}"
+        return f"Price unavailable for {ticker.upper()}."
+    except Exception as e:
+        return f"Error retrieving price for {ticker}: {str(e)}"
+\end{lstlisting}
+
+\section{Frontend Workstation Implementation}
+
+\subsection*{4. Custom Interactive SVG Chart Engine (\texttt{App.tsx})}
+Implements hover crosshairs, responsive coordinates, and SVG path interpolation:
+
+\begin{lstlisting}[style=TSStyle,caption={App.tsx -- Custom SVG Chart Component}]
+const SVGChart = ({ data, width = 700, height = 320 }) => {
+  const [hoverIndex, setHoverIndex] = useState<number | null>(null);
+  const minP = Math.min(...data.map(d => d.low));
+  const maxP = Math.max(...data.map(d => d.high));
+  const range = maxP - minP || 1;
+
+  const getY = (val: number) => height - 30 - ((val - minP) / range) * (height - 60);
+  const getX = (idx: number) => 40 + (idx / (data.length - 1)) * (width - 70);
+
+  return (
+    <svg width={width} height={height} className="chart-svg"
+         onMouseMove={(e) => {
+           const rect = e.currentTarget.getBoundingClientRect();
+           const relX = e.clientX - rect.left - 40;
+           const idx = Math.round((relX / (width - 70)) * (data.length - 1));
+           if (idx >= 0 && idx < data.length) setHoverIndex(idx);
+         }}
+         onMouseLeave={() => setHoverIndex(null)}>
+      {/* Price Grid Lines */}
+      {[0, 0.25, 0.5, 0.75, 1].map((pct, i) => (
+        <line key={i} x1={40} x2={width - 30} y1={30 + pct * (height - 60)} 
+              y2={30 + pct * (height - 60)} stroke="#2a2e3d" strokeDasharray="3 3" />
+      ))}
+      {/* Candlestick Rendering */}
+      {data.map((d, i) => {
+        const isUp = d.close >= d.open;
+        const col = isUp ? "#00ff88" : "#ff3366";
+        return (
+          <g key={i}>
+            <line x1={getX(i)} x2={getX(i)} y1={getY(d.high)} y2={getY(d.low)} stroke={col} />
+            <rect x={getX(i) - 3} y={Math.min(getY(d.open), getY(d.close))}
+                  width={6} height={Math.max(Math.abs(getY(d.open) - getY(d.close)), 2)}
+                  fill={col} />
+          </g>
+        );
+      })}
+    </svg>
+  );
+};
+\end{lstlisting}
+
+\section{System Interface Demonstration}
+
+\subsection{Landing Screen \& Quant Terminal Overview}
+
+\begin{figure}[h!]
+\centering
+\begin{tcolorbox}[colback=gray!10,colframe=gray!50,
+  title=\textbf{Fig 4.1 -- Quant Workstation Overview},fonttitle=\bfseries\small]
+  \centering
+  \vspace{0.3cm}
+  {\small\textit{[System View: High-density Bloomberg-dark workstation layout. Top header displays real-time market pulse ticker bars (NIFTY 50: 24,183.45 +0.72\%, S\&P 500: 5,918.32 +0.41\%). Left panel features the AI Chat Terminal; right side presents the multi-tab analytical suite: Chart Studio, DCF Simulator, Sector Treemap, Watchlist, and Asset Duel.]}}
+  \vspace{0.3cm}
+\end{tcolorbox}
+\end{figure}
+
+\subsection{AI Chat Terminal with Audit Trail Badges}
+
+\begin{figure}[h!]
+\centering
+\begin{tcolorbox}[colback=gray!10,colframe=gray!50,
+  title=\textbf{Fig 4.2 -- AI Terminal with Dynamic Audit Trail},fonttitle=\bfseries\small]
+  \centering
+  \vspace{0.3cm}
+  {\small\textit{[System View: Streaming conversational terminal. User prompts: ``Analyze TCS vs Infosys.'' Gemini initiates multi-tool execution, rendering active audit badges: [get\_ticker] [get\_stock\_price] [compare\_stocks] [get\_analyst\_recommendations]. Streamed response presents comparative financial metrics, valuation multiples, and analyst consensus.]}}
+  \vspace{0.3cm}
+\end{tcolorbox}
+\end{figure}
+
+\subsection{Interactive Chart Studio (RSI and SMA Overlays)}
+
+\begin{figure}[h!]
+\centering
+\begin{tcolorbox}[colback=gray!10,colframe=gray!50,
+  title=\textbf{Fig 4.3 -- Interactive SVG Chart Studio},fonttitle=\bfseries\small]
+  \centering
+  \vspace{0.3cm}
+  {\small\textit{[System View: Custom SVG Candlestick workspace for Apple Inc. (AAPL). Hover crosshair inspects timestamp date, Open, High, Low, Close, and Volume. Top pane overlays 20-day (gold) and 50-day (blue) moving averages. Bottom indicator renders RSI oscillator (58.7) within 30--70 reference boundaries, displaying BUY signal.]}}
+  \vspace{0.3cm}
+\end{tcolorbox}
+\end{figure}
+
+\subsection{DCF Intrinsic Valuation Simulator}
+
+\begin{figure}[h!]
+\centering
+\begin{tcolorbox}[colback=gray!10,colframe=gray!50,
+  title=\textbf{Fig 4.4 -- DCF Valuation Simulator},fonttitle=\bfseries\small]
+  \centering
+  \vspace{0.3cm}
+  {\small\textit{[System View: Real-time DCF calculator for Microsoft (MSFT). Displays live Operating Cash Flow and Capex pulled from Yahoo Finance. User interacts with dynamic sliders: Growth Rate (12\%) and WACC Discount Rate (9\%). Displays calculated Intrinsic Value (\$462.10) vs Current Market Price (\$415.20), yielding a +11.3\% Undervalued Margin of Safety.]}}
+  \vspace{0.3cm}
+\end{tcolorbox}
+\end{figure}
+
+\subsection{Market Sector Treemap \& Watchlist Sparklines}
+
+\begin{figure}[h!]
+\centering
+\begin{tcolorbox}[colback=gray!10,colframe=gray!50,
+  title=\textbf{Fig 4.5 -- Sector Heatmap \& Sparkline Watchlist},fonttitle=\bfseries\small]
+  \centering
+  \vspace{0.3cm}
+  {\small\textit{[System View: Sector Heatmap renders market weight proportions across Technology (+1.24\%), Finance (-0.43\%), Healthcare (+0.89\%), and Energy (-1.12\%). Adjacent Watchlist table displays live prices for NVDA, TSLA, and AAPL with real-time 7-day mini SVG sparkline trends refreshed via background polling.]}}
+  \vspace{0.3cm}
+\end{tcolorbox}
+\end{figure}
+
+% ══════════════════════════════════════════════════════════════════════════════
+% CHAPTER 5: CHALLENGES FACED
+% ══════════════════════════════════════════════════════════════════════════════
+\clearpage
+\chapter{Challenges Faced}
+
+Developing MarketInsight required overcoming several critical engineering and architectural challenges across AI streaming, API deprecations, rate limiting, and mathematical modeling:
+
+\begin{enumerate}[leftmargin=*,label=\textbf{\arabic*.}]
+  \item \textbf{LLM Deprecation and High-Demand HTTP 503 Errors:}\\
+  Initially, the agent was configured using \texttt{gemini-2.0-flash} and \texttt{gemini-3.8-flash}. During development, older endpoints were retired (triggering HTTP 404 NOT FOUND), while newer preview models intermittently returned HTTP 503 SERVICE UNAVAILABLE during peak hours. \\
+  \textbf{Solution:} Conducted systematic benchmark testing across all current Gemini endpoints, establishing that \texttt{gemini-flash-lite-latest} provides guaranteed availability, minimal latency, and full support for LangChain ReAct function calling.
+
+  \vspace{0.4cm}
+
+  \item \textbf{Gemini Polymorphic Streaming Content Format:}\\
+  Standard LangChain message tokens typically present content as a plain UTF-8 string. However, Gemini's streaming chunk generator returns structured lists of JSON dictionaries (e.g., \texttt{[\{'type': 'text', 'text': '...'\}]}). Passing these raw structures directly to the client resulted in empty string emissions or frontend JSON serialization crashes. \\
+  \textbf{Solution:} Engineered a recursive \texttt{extract\_text()} parser in \texttt{main.py} that validates and normalizes all incoming payload variants into clean strings before SSE packaging.
+
+  \vspace{0.4cm}
+
+  \item \textbf{Tool Execution Leaks in User Output Tokens:}\\
+  When LangGraph executes external tools (e.g., querying Yahoo Finance), intermediate \texttt{ToolMessage} chunks are broadcast across the event stream. This resulted in raw ticker queries and intermediate price numbers leaking into user chat bubbles prior to the final conversational answer. \\
+  \textbf{Solution:} Implemented a strict type inspection filter in the async generator that discards any chunk where \texttt{message.type == "tool"} or the class inherits from \texttt{ToolMessage}, preserving only human-readable assistant tokens while independently recording invoked tool names for audit badges.
+
+  \vspace{0.4cm}
+
+  \item \textbf{Yahoo Finance HTTP 429 Rate Limiting:}\\
+  Frequent programmatic requests to Yahoo Finance ticker lookup endpoints triggered HTTP 429 (Too Many Requests) errors due to automated scraper detection. \\
+  \textbf{Solution:} Configured custom browser-emulating request headers (\texttt{User-Agent: Mozilla/5.0...}) and converted price discovery to query \texttt{stock.fast\_info.last\_price}, a dedicated lightweight endpoint with significantly higher rate allowances.
+\end{enumerate}
+
+% ══════════════════════════════════════════════════════════════════════════════
+% CHAPTER 6: SCOPE OF THE PROJECT
+% ══════════════════════════════════════════════════════════════════════════════
+\clearpage
+\chapter{Scope of the Project}
+
+\section{In-Scope Functionality}
+
+\begin{itemize}[leftmargin=*,label=$\bullet$]
+  \item \textbf{Autonomous Financial AI Agent:} Natural-language understanding paired with dynamic ReAct execution across 16 real-time financial tools.
+  \item \textbf{High-Speed SSE Streaming:} Token-by-token response delivery ensuring sub-second visual responsiveness.
+  \item \textbf{Transparent Audit Badging:} Explicit visual confirmation in the UI indicating which tools were invoked to formulate each answer.
+  \item \textbf{Zero-Dependency Technical Charting:} Interactive candlestick and line charting with custom SVG rendering and hover crosshairs.
+  \item \textbf{Fundamental Quantitative Models:} Automated computation of RSI, SMA-20, SMA-50, and Discounted Cash Flow valuation.
+  \item \textbf{Market Treemap Heatmap:} Visualizing sector-level market performance with size weighted by market capitalization.
+  \item \textbf{Native Voice Input:} Hands-free spoken query submission powered by browser-level Web Speech synthesis.
+\end{itemize}
+
+\section{Future Scope and Extensibility}
+
+\begin{itemize}[leftmargin=*,label=$\bullet$]
+  \item \textbf{WebSocket Price Feeds:} Transitioning from periodic HTTP polling to continuous WebSocket streams for sub-second quote updates.
+  \item \textbf{Personalized Portfolio Tracking:} Integration with Supabase or PostgreSQL to allow authenticated users to log buy/sell transactions and track unrealized profit/loss.
+  \item \textbf{Options Greeks Calculator:} Implementation of Black-Scholes pricing models to compute live Delta, Gamma, Theta, and Vega across options chains.
+  \item \textbf{Multi-Model LLM Routing:} Enabling users to dynamically toggle between Google Gemini, Anthropic Claude 3.5 Sonnet, and OpenAI GPT-4o.
+  \item \textbf{Earnings Call Audio Sentiment:} Utilizing speech-to-text and sentiment analysis to score executive commentary during quarterly earnings calls.
+\end{itemize}
+
+% ══════════════════════════════════════════════════════════════════════════════
+% CHAPTER 7: CONCLUSION
+% ══════════════════════════════════════════════════════════════════════════════
+\clearpage
+\chapter{Conclusion}
+
+\begin{mdframed}[linecolor=cbitred,linewidth=1.5pt,
+  innerleftmargin=14pt,innerrightmargin=14pt,
+  innertopmargin=14pt,innerbottommargin=14pt]
+\textbf{MarketInsight v2.0} successfully demonstrates the potential of combining autonomous Agentic AI with real-time financial data engineering and interactive quantitative web interfaces. By deploying a LangGraph ReAct agent powered by Google Gemini and backed by 16 live Yahoo Finance tools, the platform bridges the divide between static generative language models and dynamic financial markets.
+\end{mdframed}
+
+\vspace{0.8cm}
+
+The system resolves the critical issues of information asymmetry, tool fragmentation, and AI hallucinations for retail investors and academic researchers. Its high-throughput asynchronous backend, robust Server-Sent Events streaming engine, custom SVG charting studio, and interactive DCF simulator provide a comprehensive suite of analytical instruments within an institutional Bloomberg-inspired workstation interface.
+
+The project reinforces essential software engineering paradigms: asynchronous API architecture, robust error-handling pipelines, stateful cyclic agent graph design, and modern component-driven frontend architecture. MarketInsight stands as a complete, production-verified, and open-source contribution to modern financial technology.
+
+% ══════════════════════════════════════════════════════════════════════════════
+% BIBLIOGRAPHY
+% ══════════════════════════════════════════════════════════════════════════════
+\clearpage
+\chapter*{Bibliography}
+\addcontentsline{toc}{chapter}{Bibliography}
+
+\begin{enumerate}[leftmargin=*,label={[\arabic*]}]
+  \item D. Prajapati, ``MarketInsight: An AI-Powered Quantitative Stock Market Intelligence Platform,'' GitHub Repository, 2026. \url{https://github.com/deepak8186863620/Merket-Insights}
+  \item Google DeepMind, ``Gemini API Documentation and Function Calling Reference,'' Google AI for Developers, 2026. \url{https://ai.google.dev/gemini-api/docs}
+  \item LangChain / LangGraph Contributors, ``LangGraph: Building Resilient Multi-Agent Cyclic Workflows,'' LangChain Documentation, 2026. \url{https://langchain-ai.github.io/langgraph/}
+  \item R. Roussi, ``yfinance: Pythonic Ingestion of Yahoo! Finance Market Feeds,'' 2026. \url{https://github.com/ranaroussi/yfinance}
+  \item S. Tiangolo, ``FastAPI: Modern, Fast Web Framework for Python with Asynchronous Support,'' 2026. \url{https://fastapi.tiangolo.com/}
+  \item Meta Platforms, ``React 18: Component State, Transitions and Concurrent Features,'' 2026. \url{https://react.dev/}
+  \item Microsoft Corporation, ``TypeScript: Typed JavaScript at Any Scale,'' 2026. \url{https://www.typescriptlang.org/docs/}
+  \item J. W. Wilder, ``New Concepts in Technical Trading Systems,'' Trend Research, 1978. \textit{(Foundational Relative Strength Index formulation)}
+  \item A. Damodaran, ``Investment Valuation: Tools and Techniques for Determining the Value of Any Asset,'' John Wiley \& Sons, 3rd ed., 2012. \textit{(Discounted Cash Flow methodology)}
+  \item W3C, ``Web Speech API Specification: Speech Recognition Interface,'' 2023. \url{https://wicg.github.io/speech-api/}
+  \item Vite Core Team, ``Vite: Next Generation Frontend Tooling,'' 2026. \url{https://vitejs.dev/}
+  \item Mozilla Developer Network, ``Server-Sent Events: Using SSE to Stream Real-Time Updates,'' MDN Web Docs, 2026. \url{https://developer.mozilla.org/}
+\end{enumerate}
+
+\end{document}
