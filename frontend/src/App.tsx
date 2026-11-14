@@ -113,7 +113,7 @@ function SparklineChart({ data, isUp }: { data: number[]; isUp: boolean }) {
     })
     .join(' ')
 
-  const strokeColor = isUp ? '#00e676' : '#ff5252'
+  const strokeColor = isUp ? '#059669' : '#dc2626'
 
   return (
     <svg width={width} height={height} className="sparkline-svg">
@@ -200,8 +200,8 @@ function InteractiveChart({
       >
         <defs>
           <linearGradient id="areaGradient" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor={isGain ? '#00e676' : '#ff5252'} stopOpacity="0.35" />
-            <stop offset="100%" stopColor={isGain ? '#00e676' : '#ff5252'} stopOpacity="0.0" />
+            <stop offset="0%" stopColor={isGain ? '#059669' : '#dc2626'} stopOpacity="0.18" />
+            <stop offset="100%" stopColor={isGain ? '#059669' : '#dc2626'} stopOpacity="0.0" />
           </linearGradient>
         </defs>
 
@@ -211,8 +211,8 @@ function InteractiveChart({
           const priceLevel = (maxPrice - pct * priceRange).toFixed(1)
           return (
             <g key={i}>
-              <line x1={padding} y1={y} x2={width - padding} y2={y} stroke="rgba(255,255,255,0.06)" strokeDasharray="4 4" />
-              <text x={width - padding + 5} y={y + 4} fill="#576071" fontSize="10" fontFamily="monospace">
+              <line x1={padding} y1={y} x2={width - padding} y2={y} stroke="rgba(15, 23, 42, 0.08)" strokeDasharray="4 4" />
+              <text x={width - padding + 5} y={y + 4} fill="#64748b" fontSize="10" fontFamily="monospace">
                 {priceLevel}
               </text>
             </g>
@@ -221,18 +221,18 @@ function InteractiveChart({
 
         {/* Area & Polyline */}
         <polygon fill="url(#areaGradient)" points={areaStr} />
-        <polyline fill="none" stroke={isGain ? '#00e676' : '#ff5252'} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" points={polylineStr} />
+        <polyline fill="none" stroke={isGain ? '#059669' : '#dc2626'} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" points={polylineStr} />
 
         {/* SMA Line */}
         {showSMA && validSMA && (
-          <polyline fill="none" stroke="#7c4dff" strokeWidth="2" strokeDasharray="3 3" points={validSMA} />
+          <polyline fill="none" stroke="#4f46e5" strokeWidth="2" strokeDasharray="3 3" points={validSMA} />
         )}
 
         {/* Crosshair */}
         {hoverIndex !== null && (
           <g>
-            <line x1={activePoint.x} y1={padding} x2={activePoint.x} y2={padding + chartH} stroke="rgba(0, 229, 255, 0.6)" strokeDasharray="3 3" />
-            <circle cx={activePoint.x} cy={activePoint.y} r="5" fill="#00e5ff" stroke="#fff" strokeWidth="2" />
+            <line x1={activePoint.x} y1={padding} x2={activePoint.x} y2={padding + chartH} stroke="rgba(37, 99, 235, 0.5)" strokeDasharray="3 3" />
+            <circle cx={activePoint.x} cy={activePoint.y} r="5" fill="#2563eb" stroke="#ffffff" strokeWidth="2" />
           </g>
         )}
       </svg>
