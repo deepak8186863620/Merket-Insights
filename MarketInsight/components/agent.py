@@ -1,6 +1,6 @@
 import os
 from dotenv import load_dotenv
-from langchain_openai import ChatOpenAI
+from langchain_google_genai import ChatGoogleGenerativeAI
 from MarketInsight.utils.tools import *
 from MarketInsight.utils.logger import get_logger
 from langgraph.checkpoint.memory import MemorySaver
@@ -9,10 +9,11 @@ from langchain.agents import create_agent
 load_dotenv()
 logger = get_logger(__name__)
 
-model = ChatOpenAI(
-        model = "c1/openai/gpt-5/v-20250930",
-        base_url = "https://api.thesys.dev/v1/embed/"
-    )
+model = ChatGoogleGenerativeAI(
+    model=os.getenv("GEMINI_MODEL", "gemini-flash-lite-latest"),
+    google_api_key=os.getenv("GOOGLE_API_KEY"),
+    temperature=0
+)
 
 agent = create_agent(
     model,

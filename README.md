@@ -1,76 +1,85 @@
-# Market Insight
+# ⚡ MarketInsight — Institutional AI Financial Terminal
 
-An AI-powered stock market analysis platform that provides comprehensive financial data and intelligent insights through a conversational interface.
+An institutional-grade, AI-powered stock market workstation providing real-time financial data, deterministic quant valuation models, interactive charting, and an autonomous market intelligence agent.
 
-## Overview
+---
 
-Market Insight leverages advanced AI agents to deliver real-time stock market information, financial analysis, and investment insights. The platform combines the power of LangChain and OpenAI's language models with Yahoo Finance data to create an intelligent assistant for stock market research.
+## 🌟 Key Features
 
-## Technology Stack
+### 1. 💬 AI Quant Analyst Terminal (Voice & Text)
+- **Zero-Hallucination Policy**: Real-time tools fetch live stock prices, balance sheets, cash flows, insider moves, institutional holders, and analyst targets directly from exchange gateways.
+- **Transparent Audit Trail**: Every response displays an explicit **Verified Live Market Sources** badge verifying which Python tools were executed and what raw data was returned.
+- **Voice-to-Intel**: Tap the microphone to speak queries using the Web Speech API with an animated soundwave visualizer.
+- **One-Click Export**: Download structured research briefings in Markdown format with one click.
 
-**Backend:**
-- FastAPI for high-performance API endpoints
-- LangChain & LangGraph for AI agent orchestration
-- OpenAI GPT models for intelligent responses
-- YFinance for financial data retrieval
-- Langfuse for observability and tracing
+### 2. 📈 Interactive Quant Chart & DCF Studio (TradingView Style)
+- **Interactive SVG Charting**: Smooth area and line curves with timeframe toggles (`5D`, `1MO`, `6MO`, `1Y`, `5Y`).
+- **Live Hover Crosshair**: Track exact date, price, and volume points.
+- **Technical Indicators**: Toggleable 20-day Simple Moving Average (SMA) line, mathematical 14-period RSI (Oversold/Overbought), and synthesized quant signal needles (`STRONG BUY`, `BUY`, `NEUTRAL`, `SELL`, `STRONG SELL`).
+- **Interactive DCF Valuation Simulator**: Real-time sliders for **Expected Growth Rate %** and **Hurdle Discount Rate (WACC) %** to compute intrinsic fair value and Margin of Safety live on screen.
 
-**Frontend:**
-- Modern React-based interface
-- Real-time streaming responses
-- Responsive design for all devices
+### 3. 🗺️ Live Market Sector Treemap Heatmap
+- Visual grid covering **Information Technology**, **Banking & Finance**, **Energy & Conglomerates**, and **Automobile & Metals**.
+- Sized by weight and color-coded by real-time daily percentage changes. Click any stock tile to open its interactive quant studio.
 
-## Getting Started
+### 4. 🧠 Algorithmic Market Pulse & Sentiment Radar
+- Live infinite marquee tracking indices (NIFTY 50, SENSEX, S&P 500, NASDAQ) and blue-chips.
+- Real-time **Fear & Greed Sentiment Score (0–100)** computed from market breadth and momentum.
 
-### Prerequisites
-- Python 3.x
-- Node.js (for frontend)
-- OpenAI API key
+### 5. ⭐ Quantitative Watchlist & ⚔️ Versus Duel Arena
+- Pin your favorite assets with live 7-day SVG sparklines stored in your browser's `localStorage`.
+- Head-to-head stock arena to pit any two assets against each other (e.g., `TCS.NS vs INFY.NS` or `AAPL vs MSFT`).
 
-### Installation
+---
 
-1. Clone the repository
-2. Install Python dependencies:
-   ```bash
-   pip install -r requirements.txt
-   ```
-3. Set up environment variables in `.env` file
-4. Install frontend dependencies:
-   ```bash
-   cd frontend
-   npm install
-   ```
-5. Run the backend server:
-   ```bash
-   python main.py
-   ```
-6. Run the frontend development server:
-   ```bash
-   cd frontend
-   npm run dev
-   ```
-7. Access the API at `http://localhost:8000` and frontend at `http://localhost:5173`
+## 🛠️ Technology Stack
 
-## Project Structure
+- **Backend**: FastAPI, LangChain, LangGraph, Google Gemini AI (`gemini-flash-lite`), YFinance, Uvicorn, Langfuse (optional)
+- **Frontend**: React 19, TypeScript, Vite, SVG Data Visualizations, Web Speech API
 
+---
+
+## 🚀 Quickstart Guide
+
+### 1. Prerequisites
+- Python 3.10+
+- Node.js 18+
+- Google Gemini API Key (Free: [aistudio.google.com/app/apikey](https://aistudio.google.com/app/apikey))
+
+### 2. Backend Setup
+```bash
+# Clone the repository
+git clone https://github.com/deepak8186863620/Merket-Insights.git
+cd Merket-Insights
+
+# Install Python dependencies
+pip install -r requirements.txt
+
+# Configure environment variables
+cp .env.example .env
+# Edit .env and paste your GOOGLE_API_KEY
+
+# Start backend server (runs on port 8000)
+python main.py
 ```
-MarketInsight/
-├── components/     # AI agent configuration
-├── utils/          # Tools and utilities
-├── config/         # Configuration files
-├── frontend/       # React frontend application
-└── main.py         # FastAPI server entry point
+
+### 3. Frontend Setup
+```bash
+cd frontend
+
+# Install Node dependencies
+npm install
+
+# Start Vite development server (runs on port 3000)
+npm run dev
 ```
 
-## API Capabilities
+### 4. Access the Application
+- **Frontend UI**: [http://localhost:3000](http://localhost:3000)
+- **FastAPI Interactive Docs**: [http://localhost:8000/docs](http://localhost:8000/docs)
+- **Market Pulse API**: [http://localhost:8000/api/market-pulse](http://localhost:8000/api/market-pulse)
 
-The platform provides 16 specialized tools for comprehensive stock analysis:
-- Stock price tracking
-- Historical data analysis
-- Financial statements (Balance Sheet, Income Statement, Cash Flow)
-- Company information and ratios
-- Dividend and split history
-- Ownership and holder data
-- Insider transactions
-- Analyst recommendations
-- Company ticker lookup
+---
+
+## 🔒 Security Note
+Never commit your `.env` file to version control. The repository comes pre-configured with a `.gitignore` to prevent secret leaks.

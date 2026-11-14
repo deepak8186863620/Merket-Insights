@@ -21,11 +21,20 @@ def get_stock_price(ticker: str):
 
     try:
         stock = yf.Ticker(ticker)
-        stock_price = stock.info['regularMarketPrice']
+        stock_price = None
+        try:
+            stock_price = stock.fast_info.last_price
+        except Exception:
+            pass
+            
+        if stock_price is None:
+            info = stock.info or {}
+            stock_price = info.get('regularMarketPrice') or info.get('currentPrice') or info.get('previousClose')
+            
         end_time = time.time()
 
         if stock_price is None:
-            return "No price data available for {ticker}"
+            return f"No price data available for {ticker}"
         
         logger.info(f"Retrieved Stock Price of {ticker} in {end_time - start_time:.3f} seconds")
         return stock_price
@@ -417,17 +426,23 @@ def get_ticker(company_name: str):
     try:
         start_time = time.time()
         url = f"https://query2.finance.yahoo.com/v1/finance/search?q={company_name}"
-        response = requests.get(url)
+        headers = {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+        }
+        response = requests.get(url, headers=headers, timeout=10)
         
         if response.status_code == 200:
             data = response.json()
-            ticker = data['quotes'][0]['symbol']
-            end_time = time.time()
-            logger.info(f"Retrieved Ticker of {company_name} in {end_time - start_time:.3f} seconds")
-            return ticker
+            quotes = data.get('quotes', [])
+            if quotes and 'symbol' in quotes[0]:
+                ticker = quotes[0]['symbol']
+                end_time = time.time()
+                logger.info(f"Retrieved Ticker of {company_name} in {end_time - start_time:.3f} seconds")
+                return ticker
+            return f"No ticker symbol found for '{company_name}'"
         else:
-            return "Error: Failed to retrieve ticker. Please try again later."
+            return f"Error: Yahoo Search returned status {response.status_code}"
             
     except Exception as e:
         logger.error(f"Failed to retrieve ticker of {company_name}: {str(e)}")
-        return "Error: Failed to retrieve ticker. Please try again later."
+        return f"Error: Failed to retrieve ticker. {str(e)}"
