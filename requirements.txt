@@ -1,10 +1,12 @@
 fastapi
-pydantic
 uvicorn
+pydantic
 python-dotenv
-langchain-openai
-langgraph
-yfinance
 langchain
 langchain-core
+langchain-google-genai
+google-generativeai
+langgraph
+yfinance
+requests
 langfuse
