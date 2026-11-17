@@ -1,7 +1,11 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
 import './App.css'
 
-const API_BASE = import.meta.env.VITE_API_URL ? import.meta.env.VITE_API_URL.replace('/api/chat', '') : ''
+const rawApiUrl = (
+  import.meta.env.VITE_API_URL ||
+  (import.meta.env.PROD ? 'https://merket-insights.onrender.com' : '')
+).trim().replace('/api/chat', '').replace(/\/+$/, '')
+const API_BASE = rawApiUrl
 const CHAT_API = API_BASE ? `${API_BASE}/api/chat` : '/api/chat'
 
 interface MarketIndex {
