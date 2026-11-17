@@ -1,4 +1,5 @@
 import os
+import asyncio
 import uvicorn
 import yfinance as yf
 from fastapi import FastAPI
@@ -350,11 +351,15 @@ async def chat(request: RequestObject):
     config = {'configurable': {'thread_id': request.threadId}}
 
     async def generate():
+        # Immediate handshake chunk so HTTP 200 headers are flushed instantly to client
+        yield " "
+        await asyncio.sleep(0.001)
+
         try:
             full_response = ""
             tools_used = []
 
-            for token, _ in agent.stream(
+            async for token, _ in agent.astream(
                 {
                     'messages': [
                         SystemMessage(content="You are a professional, high-conviction stock market analyst and quantitative financial strategist. When answering queries, prioritize real-time tools to fetch accurate stock prices, company financials, historical trends, insider moves, and analyst targets. Structure your responses clearly with bold stock tickers, key metrics, technical/fundamental takeaway, and bullet points. Never guess or fabricate financial numbers."),
@@ -377,6 +382,7 @@ async def chat(request: RequestObject):
                 if text_chunk:
                     full_response += text_chunk
                     yield text_chunk
+                    await asyncio.sleep(0.001)
 
             # Append live audit verification badge if tools were executed
             if tools_used:
@@ -386,6 +392,7 @@ async def chat(request: RequestObject):
                 audit_badge += "*Live feed verified via Yahoo Finance Exchange Gateway*\n"
                 full_response += audit_badge
                 yield audit_badge
+                await asyncio.sleep(0.001)
 
             # Log to Langfuse if enabled
             if langfuse and full_response:

@@ -1,8 +1,8 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
 import './App.css'
 
-const API_BASE = import.meta.env.VITE_API_URL ? import.meta.env.VITE_API_URL.replace('/api/chat', '') : 'http://localhost:8000'
-const CHAT_API = `${API_BASE}/api/chat`
+const API_BASE = import.meta.env.VITE_API_URL ? import.meta.env.VITE_API_URL.replace('/api/chat', '') : ''
+const CHAT_API = API_BASE ? `${API_BASE}/api/chat` : '/api/chat'
 
 interface MarketIndex {
   symbol: string
@@ -281,12 +281,25 @@ export default function App() {
 
   const threadId = useRef(genId())
   const messagesEndRef = useRef<HTMLDivElement>(null)
+  const chatThreadRef = useRef<HTMLDivElement>(null)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
   const recognitionRef = useRef<any>(null)
 
-  // Auto-scroll messages
+  // Keep window always anchored to top (never allow window-level scroll offset)
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
+    window.scrollTo(0, 0)
+    document.documentElement.scrollTop = 0
+    document.body.scrollTop = 0
+  }, [activeTab])
+
+  // Safe message scrolling inside the conversation container only (never scrolls ancestor window)
+  useEffect(() => {
+    if (chatThreadRef.current) {
+      chatThreadRef.current.scrollTo({
+        top: chatThreadRef.current.scrollHeight,
+        behavior: 'smooth'
+      })
+    }
   }, [messages, loading])
 
   // Fetch market pulse
@@ -1011,7 +1024,7 @@ export default function App() {
                   </div>
                 </div>
               ) : (
-                <div className="conversation-thread">
+                <div className="conversation-thread" ref={chatThreadRef}>
                   {messages.map(msg => (
                     <div key={msg.id} className={`chat-message-row msg-${msg.role}`}>
                       <div className="msg-avatar-col">

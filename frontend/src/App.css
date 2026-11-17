@@ -53,6 +53,8 @@
 html, body, #root {
   height: 100%;
   width: 100%;
+  margin: 0;
+  padding: 0;
   overflow: hidden;
   background-color: var(--bg-deep);
   color: var(--text-primary);
@@ -64,9 +66,14 @@ html, body, #root {
 .mi-root {
   display: flex;
   flex-direction: column;
+  height: 100vh;
   height: 100dvh;
   width: 100vw;
-  position: relative;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   overflow: hidden;
   background: var(--bg-deep);
 }
@@ -117,13 +124,16 @@ html, body, #root {
 /* ── Real-time Ticker Tape Header ── */
 .ticker-tape-header {
   height: 40px;
+  min-height: 40px;
+  max-height: 40px;
+  flex-shrink: 0;
   background: #ffffff;
   border-bottom: 1px solid var(--border-subtle);
   box-shadow: var(--shadow-subtle);
   display: flex;
   align-items: center;
   position: relative;
-  z-index: 10;
+  z-index: 20;
   overflow: hidden;
   padding: 0 18px;
   gap: 20px;
@@ -256,6 +266,7 @@ html, body, #root {
 .mi-body {
   display: flex;
   flex: 1;
+  min-height: 0;
   position: relative;
   z-index: 1;
   overflow: hidden;
@@ -275,6 +286,8 @@ html, body, #root {
   transition: margin-left 0.35s cubic-bezier(0.16, 1, 0.3, 1);
   position: relative;
   z-index: 5;
+  overflow-y: auto;
+  flex-shrink: 0;
 }
 
 .mi-sidebar.closed {
@@ -493,6 +506,8 @@ html, body, #root {
 /* ── Main Workspace ── */
 .mi-workspace {
   flex: 1;
+  min-width: 0;
+  min-height: 0;
   display: flex;
   flex-direction: column;
   position: relative;
@@ -502,9 +517,10 @@ html, body, #root {
 
 .tab-pane {
   flex: 1;
+  min-height: 0;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  overflow-y: auto;
   position: relative;
 }
 
@@ -886,6 +902,7 @@ html, body, #root {
   display: flex;
   flex-direction: column;
   gap: 20px;
+  padding-bottom: 24px;
 }
 
 .sector-group-card {
@@ -1566,11 +1583,13 @@ html, body, #root {
 
 /* ── Terminal Dock & Input Bar ── */
 .terminal-dock {
-  padding: 12px 24px 20px;
+  padding: 10px 24px 16px;
   position: relative;
   z-index: 10;
   display: flex;
   justify-content: center;
+  flex-shrink: 0;
+  background: linear-gradient(180deg, rgba(248, 250, 252, 0) 0%, rgba(248, 250, 252, 0.95) 30%, #f8fafc 100%);
 }
 
 .dock-container {

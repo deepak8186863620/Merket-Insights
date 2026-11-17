@@ -9,11 +9,22 @@ from langchain.agents import create_agent
 load_dotenv()
 logger = get_logger(__name__)
 
-model = ChatGoogleGenerativeAI(
+# Primary model with automatic fallback to avoid 503 high-demand errors
+primary_model = ChatGoogleGenerativeAI(
     model=os.getenv("GEMINI_MODEL", "gemini-flash-lite-latest"),
     google_api_key=os.getenv("GOOGLE_API_KEY"),
-    temperature=0
+    temperature=0,
+    max_retries=3
 )
+
+fallback_model = ChatGoogleGenerativeAI(
+    model="gemini-2.5-flash",
+    google_api_key=os.getenv("GOOGLE_API_KEY"),
+    temperature=0,
+    max_retries=3
+)
+
+model = primary_model.with_fallbacks([fallback_model])
 
 agent = create_agent(
     model,
