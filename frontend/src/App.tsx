@@ -285,11 +285,44 @@ export default function App() {
   const textareaRef = useRef<HTMLTextAreaElement>(null)
   const recognitionRef = useRef<any>(null)
 
-  // Keep window always anchored to top (never allow window-level scroll offset)
+  // Keep window and all root containers anchored to top (never allow window-level or root scroll offset)
   useEffect(() => {
-    window.scrollTo(0, 0)
-    document.documentElement.scrollTop = 0
-    document.body.scrollTop = 0
+    const clampToTop = () => {
+      window.scrollTo(0, 0)
+      if (document.documentElement) document.documentElement.scrollTop = 0
+      if (document.body) document.body.scrollTop = 0
+      const root = document.getElementById('root')
+      if (root) root.scrollTop = 0
+      const miRoot = document.querySelector('.mi-root') as HTMLElement | null
+      if (miRoot) miRoot.scrollTop = 0
+      const miBody = document.querySelector('.mi-body') as HTMLElement | null
+      if (miBody) miBody.scrollTop = 0
+    }
+
+    clampToTop()
+    const timer = setTimeout(clampToTop, 50)
+    const timer2 = setTimeout(clampToTop, 200)
+
+    const handleScroll = (e: Event) => {
+      const target = e.target as HTMLElement | null
+      if (
+        target &&
+        (target === document.documentElement ||
+         target === document.body ||
+         target.id === 'root' ||
+         target.classList?.contains('mi-root') ||
+         target.classList?.contains('mi-body'))
+      ) {
+        target.scrollTop = 0
+      }
+    }
+
+    window.addEventListener('scroll', handleScroll, true)
+    return () => {
+      clearTimeout(timer)
+      clearTimeout(timer2)
+      window.removeEventListener('scroll', handleScroll, true)
+    }
   }, [activeTab])
 
   // Safe message scrolling inside the conversation container only (never scrolls ancestor window)
