@@ -244,6 +244,35 @@ function InteractiveChart({
   )
 }
 
+function renderFormattedText(text: string) {
+  if (!text) return null
+  const tokens = text.split(/(`[^`]+`|\*\*[^*]+\*\*|\*[^*]+\*)/g)
+  return tokens.map((tok, i) => {
+    if (tok.startsWith('`') && tok.endsWith('`') && tok.length > 2) {
+      return (
+        <code key={i} className="md-code-inline">
+          {tok.slice(1, -1)}
+        </code>
+      )
+    }
+    if (tok.startsWith('**') && tok.endsWith('**') && tok.length > 4) {
+      return (
+        <strong key={i} className="md-strong">
+          {tok.slice(2, -2)}
+        </strong>
+      )
+    }
+    if (tok.startsWith('*') && tok.endsWith('*') && tok.length > 2) {
+      return (
+        <em key={i} className="md-em">
+          {tok.slice(1, -1)}
+        </em>
+      )
+    }
+    return tok
+  })
+}
+
 export default function App() {
   const [messages, setMessages] = useState<Message[]>([])
   const [input, setInput] = useState('')
@@ -1083,29 +1112,50 @@ export default function App() {
                         <div className="msg-bubble-box">
                           {msg.content ? (
                             <div className="rich-markdown-body">
-                              {msg.content.split('\n').map((line, idx) => {
-                                if (line.startsWith('### ')) {
-                                  return <h4 key={idx} className="md-h4">{line.replace('### ', '')}</h4>
+                              {(() => {
+                                const rawLines = msg.content.split('\n')
+                                const processedLines: string[] = []
+                                for (let i = 0; i < rawLines.length; i++) {
+                                  const trimmed = rawLines[i].trim()
+                                  if (trimmed === '▸' || trimmed === '•' || trimmed === '-') {
+                                    if (i + 1 < rawLines.length && rawLines[i + 1].trim()) {
+                                      processedLines.push(`▸ ${rawLines[i + 1].trim()}`)
+                                      i++
+                                      continue
+                                    }
+                                  }
+                                  processedLines.push(rawLines[i])
                                 }
-                                if (line.startsWith('## ')) {
-                                  return <h3 key={idx} className="md-h3">{line.replace('## ', '')}</h3>
-                                }
-                                if (line.startsWith('# ')) {
-                                  return <h2 key={idx} className="md-h2">{line.replace('# ', '')}</h2>
-                                }
-                                if (line.startsWith('- ') || line.startsWith('* ')) {
-                                  return (
-                                    <div key={idx} className="md-list-item">
-                                      <span className="bullet">▸</span>
-                                      <span>{line.substring(2)}</span>
-                                    </div>
-                                  )
-                                }
-                                if (!line.trim()) {
-                                  return <div key={idx} className="md-spacer" />
-                                }
-                                return <p key={idx} className="md-paragraph">{line}</p>
-                              })}
+
+                                return processedLines.map((line, idx) => {
+                                  const trimmed = line.trim()
+                                  if (trimmed === '---' || trimmed === '***' || trimmed === '___') {
+                                    return <hr key={idx} className="md-divider" />
+                                  }
+                                  if (line.startsWith('### ')) {
+                                    return <h4 key={idx} className="md-h4">{renderFormattedText(line.replace('### ', ''))}</h4>
+                                  }
+                                  if (line.startsWith('## ')) {
+                                    return <h3 key={idx} className="md-h3">{renderFormattedText(line.replace('## ', ''))}</h3>
+                                  }
+                                  if (line.startsWith('# ')) {
+                                    return <h2 key={idx} className="md-h2">{renderFormattedText(line.replace('# ', ''))}</h2>
+                                  }
+                                  if (line.startsWith('- ') || line.startsWith('* ') || line.startsWith('▸ ') || line.startsWith('• ') || trimmed.startsWith('▸ ') || trimmed.startsWith('• ')) {
+                                    const itemText = line.replace(/^([-*▸•]\s*)/, '').trim()
+                                    return (
+                                      <div key={idx} className="md-list-item">
+                                        <span className="bullet">▸</span>
+                                        <span className="md-item-content">{renderFormattedText(itemText)}</span>
+                                      </div>
+                                    )
+                                  }
+                                  if (!trimmed) {
+                                    return <div key={idx} className="md-spacer" />
+                                  }
+                                  return <p key={idx} className="md-paragraph">{renderFormattedText(line)}</p>
+                                })
+                              })()}
                             </div>
                           ) : msg.role === 'assistant' && loading ? (
                             <div className="quant-calculating">

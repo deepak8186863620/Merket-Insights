@@ -270,10 +270,12 @@ def get_institutional_holders(ticker: str):
     try:
         start_time = time.time()
         stock = yf.Ticker(ticker)
-        holders = stock.institutional_holders.to_dict()
-
-        if holders is None:
-            return "No institutional holders available for {ticker}"
+        raw_holders = getattr(stock, 'institutional_holders', None)
+        if raw_holders is None or (hasattr(raw_holders, 'empty') and raw_holders.empty):
+            return f"No institutional holders data available for {ticker}."
+        holders = raw_holders.to_dict() if hasattr(raw_holders, 'to_dict') else raw_holders
+        if not holders:
+            return f"No institutional holders data available for {ticker}."
 
         end_time = time.time()
         logger.info(f"Retrieved Institutional Holders of {ticker} in {end_time - start_time:.3f} seconds")
@@ -296,10 +298,12 @@ def get_major_shareholders(ticker: str):
     try:
         start_time = time.time()
         stock = yf.Ticker(ticker)
-        holders = stock.major_holders.to_dict()
-
-        if holders is None:
-            return "No major share holders available for {ticker}"
+        raw_holders = getattr(stock, 'major_holders', None)
+        if raw_holders is None or (hasattr(raw_holders, 'empty') and raw_holders.empty):
+            return f"No major share holders data available for {ticker}."
+        holders = raw_holders.to_dict() if hasattr(raw_holders, 'to_dict') else raw_holders
+        if not holders:
+            return f"No major share holders data available for {ticker}."
 
         end_time = time.time()
         logger.info(f"Retrieved Major Share Holders of {ticker} in {end_time - start_time:.3f} seconds")
@@ -322,10 +326,12 @@ def get_mutual_fund_holders(ticker: str):
     try:
         start_time = time.time()
         stock = yf.Ticker(ticker)
-        holders = stock.mutualfund_holders.to_dict()
-
-        if holders is None:
-            return "No mutual fund holders available for {ticker}"
+        raw_holders = getattr(stock, 'mutualfund_holders', None)
+        if raw_holders is None or (hasattr(raw_holders, 'empty') and raw_holders.empty):
+            return f"No mutual fund holders data available for {ticker}."
+        holders = raw_holders.to_dict() if hasattr(raw_holders, 'to_dict') else raw_holders
+        if not holders:
+            return f"No mutual fund holders data available for {ticker}."
 
         end_time = time.time()
         logger.info(f"Retrieved Mutual Fund Holders of {ticker} in {end_time - start_time:.3f} seconds")
@@ -348,10 +354,12 @@ def get_insider_transactions(ticker: str):
     try:
         start_time = time.time()
         stock = yf.Ticker(ticker)
-        insider_txn = stock.insider_transactions.to_dict()
-
-        if insider_txn is None:
-            return "No insider transactions available for {ticker}"
+        raw_txn = getattr(stock, 'insider_transactions', None)
+        if raw_txn is None or (hasattr(raw_txn, 'empty') and raw_txn.empty):
+            return f"No recent insider transactions filings found for {ticker}."
+        insider_txn = raw_txn.to_dict() if hasattr(raw_txn, 'to_dict') else raw_txn
+        if not insider_txn:
+            return f"No recent insider transactions filings found for {ticker}."
 
         end_time = time.time()
         logger.info(f"Retrieved Insider Transactions of {ticker} in {end_time - start_time:.3f} seconds")
@@ -374,10 +382,12 @@ def get_analyst_recommendations(ticker: str):
     try:
         start_time = time.time()
         stock = yf.Ticker(ticker)
-        recommendations = stock.recommendations.to_dict()
-
-        if recommendations is None:
-            return "No analyst recommendations available for {ticker}"
+        raw_rec = getattr(stock, 'recommendations', None)
+        if raw_rec is None or (hasattr(raw_rec, 'empty') and raw_rec.empty):
+            return f"No analyst recommendations found for {ticker}."
+        recommendations = raw_rec.to_dict() if hasattr(raw_rec, 'to_dict') else raw_rec
+        if not recommendations:
+            return f"No analyst recommendations found for {ticker}."
 
         end_time = time.time()
         logger.info(f"Retrieved Analyst Recommendations of {ticker} in {end_time - start_time:.3f} seconds")
@@ -400,10 +410,12 @@ def get_analyst_recommendations_summary(ticker: str):
     try:
         start_time = time.time()
         stock = yf.Ticker(ticker)
-        recommendations = stock.recommendations_summary.to_dict()
-
-        if recommendations is None:
-            return "No analyst recommendations summary available for {ticker}"
+        raw_rec = getattr(stock, 'recommendations_summary', None)
+        if raw_rec is None or (hasattr(raw_rec, 'empty') and raw_rec.empty):
+            return f"No analyst recommendations summary found for {ticker}."
+        recommendations = raw_rec.to_dict() if hasattr(raw_rec, 'to_dict') else raw_rec
+        if not recommendations:
+            return f"No analyst recommendations summary found for {ticker}."
 
         end_time = time.time()
         logger.info(f"Retrieved Analyst Recommendations Summary of {ticker} in {end_time - start_time:.3f} seconds")
